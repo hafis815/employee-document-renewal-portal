@@ -1,0 +1,4572 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    /* ===== Global foundation ===== */
+    :root {
+      --navy-950: #0b1f38;
+      --navy-900: #102b4e;
+      --navy-800: #173b68;
+      --blue-700: #1d4ed8;
+      --blue-600: #2563eb;
+      --blue-100: #dbeafe;
+      --ink: #243247;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --panel: #ffffff;
+      --canvas: #f3f6fb;
+      --success: #15803d;
+      --warning: #b45309;
+      --danger: #b91c1c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--canvas);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      background: var(--canvas);
+      color: var(--ink);
+    }
+
+    header {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 18px 28px;
+      color: #ffffff;
+      background: var(--navy-900);
+      border-bottom: 1px solid #244366;
+      box-shadow: 0 3px 12px rgba(11, 31, 56, 0.08);
+      text-align: left;
+    }
+
+    header h1 {
+      margin: 0 0 4px;
+      color: #ffffff;
+      font-size: 23px;
+      line-height: 1.25;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    header p {
+      margin: 0;
+      color: #cbd9eb;
+      font-size: 12px;
+    }
+
+    main {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2, h3, p {
+      overflow-wrap: anywhere;
+    }
+
+    h2 {
+      color: var(--navy-900);
+    }
+
+    .card {
+      min-width: 0;
+      padding: 24px;
+      margin: 0 0 22px;
+      border: 1px solid #e3eaf3;
+      border-radius: 14px;
+      background: var(--panel);
+      box-shadow: 0 5px 18px rgba(16, 43, 78, 0.045);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 10px 16px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: var(--navy-800);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.3;
+      cursor: pointer;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    }
+
+    button:hover {
+      background: var(--navy-900);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+      transform: none;
+    }
+
+    input,
+    select,
+    textarea {
+      max-width: 100%;
+      font: inherit;
+    }
+
+    label {
+      display: block;
+      margin: 8px 0 5px;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .field {
+      display: block;
+      width: 100%;
+      min-height: 43px;
+      padding: 10px 12px;
+      margin: 6px 0 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--ink);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .field:focus,
+    input:focus,
+    select:focus {
+      border-color: #60a5fa;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.13);
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline: 3px solid #93c5fd;
+      outline-offset: 2px;
+    }
+
+    #message,
+    #documentMessage,
+    #hrMessage,
+    #addEmployeeMessage,
+    #uploadMessage,
+    #familyMemberMessage,
+    #familyDocumentUploadMessage {
+      margin-top: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    #message {
+      color: var(--warning);
+    }
+
+    /* ===== Tables ===== */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #ffffff;
+    }
+
+    table {
+      width: 100%;
+      min-width: 560px;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    th,
+    td {
+      padding: 13px 14px;
+      text-align: left;
+      vertical-align: middle;
+      border-bottom: 1px solid #e8edf4;
+      font-size: 13px;
+    }
+
+    th {
+      background: #edf3fa;
+      color: #173b68;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.45px;
+      white-space: nowrap;
+    }
+
+    td {
+      background: #ffffff;
+      color: #334155;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tbody tr:hover td {
+      background: #f8fbff;
+    }
+
+    /* ===== Login and employee pages ===== */
+    #loginCard,
+    #dashboard {
+      width: min(100% - 40px, 1000px);
+      margin: 32px auto;
+    }
+
+    #loginCard {
+      max-width: 620px;
+      padding: 30px;
+    }
+
+    #loginCard h2,
+    #dashboard h2 {
+      margin-top: 0;
+    }
+
+    #dashboard h3 {
+      margin-top: 26px;
+      color: var(--navy-900);
+    }
+
+    /* ===== Full-width HR admin workspace ===== */
+    #hrDashboard {
+      display: block;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .hr-layout {
+      display: flex;
+      align-items: stretch;
+      width: 100%;
+      max-width: none;
+      min-height: calc(100vh - 72px);
+      margin: 0;
+      padding: 0;
+      gap: 0;
+    }
+
+    .hr-sidebar {
+      flex: 0 0 255px;
+      width: 255px;
+      min-width: 255px;
+      padding: 26px 15px;
+      background: var(--navy-900);
+      color: #ffffff;
+      border-right: 1px solid #193b63;
+    }
+
+    .hr-sidebar-title {
+      padding: 0 12px 18px;
+      color: #a9c2e2;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+    }
+
+    .hr-sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hr-nav-button {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      min-height: 42px;
+      padding: 11px 13px;
+      margin: 0;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      background: transparent;
+      color: #d5e1f0;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.35;
+      box-shadow: none;
+    }
+
+    .hr-nav-button:hover {
+      background: #193d67;
+      color: #ffffff;
+      transform: none;
+    }
+
+    .hr-nav-button.active {
+      background: var(--blue-600);
+      color: #ffffff;
+      border-color: #4f8df7;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .hr-main {
+      flex: 1 1 auto;
+      width: calc(100% - 255px);
+      min-width: 0;
+      padding: 30px clamp(20px, 3vw, 48px) 42px;
+      background: var(--canvas);
+    }
+
+    .hr-main > h2 {
+      margin: 0 0 8px;
+      color: var(--navy-900);
+      font-size: 27px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.45px;
+      text-align: left;
+    }
+
+    .hr-main h3 {
+      margin: 25px 0 14px;
+      color: var(--navy-800);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .hr-page {
+  display: none;
+  width: 100%;
+  min-width: 0;
+}
+
+.hr-page.active {
+  display: block;
+}
+
+/* Welcome text beside the sign-out button */
+#hrWelcome {
+  display: inline-flex;
+  align-items: center;
+  max-width: calc(100% - 135px);
+  min-height: 42px;
+  padding: 9px 13px;
+  margin: 0 10px 0 0;
+  border: 1px solid #e1e8f1;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #52657e;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+#hrDashboard > .hr-layout .hr-main > button[onclick="signOut()"] {
+  min-height: 42px;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.hr-main .table-container {
+  border: 1px solid #e1e8f1;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(16, 43, 78, 0.035);
+}
+
+.hr-main th {
+  padding: 15px;
+  background: #edf3fa;
+  color: #425977;
+  font-size: 10px;
+  letter-spacing: 0.7px;
+}
+
+.hr-main td {
+  padding: 14px 15px;
+}
+
+.hr-main .card {
+  padding: 26px;
+  border-radius: 13px;
+  box-shadow: 0 4px 15px rgba(16, 43, 78, 0.04);
+}
+
+.hr-main .field {
+  min-height: 45px;
+  border-color: #d6dfeb;
+  border-radius: 8px;
+}
+
+.hr-main .field:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+
+@media (max-width: 700px) {
+  .hr-main {
+    padding: 22px 14px 30px;
+  }
+}
+
+/* ===== Employee details popup ===== */
+
+.employee-details-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  background: rgba(8, 25, 47, 0.65);
+}
+
+.employee-details-modal.hidden {
+  display: none !important;
+}
+
+.employee-details-panel {
+  width: min(100%, 1000px);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #f5f8fc;
+  border: 1px solid #dbe5f0;
+  border-radius: 16px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+}
+
+.employee-details-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 28px;
+  color: #ffffff;
+  background: #102b4e;
+}
+
+.employee-details-header h2 {
+  margin: 0 0 5px;
+  color: #ffffff;
+  font-size: 23px;
+}
+
+.employee-details-header p {
+  margin: 0;
+  color: #cbd9eb;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.employee-details-close {
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: 8px 12px;
+  background: #24466c;
+  color: #ffffff;
+}
+
+.employee-details-close:hover {
+  background: #355b85;
+}
+
+.employee-details-content {
+  padding: 24px 28px 30px;
+}
+
+.employee-details-section {
+  margin: 0 0 24px;
+}
+
+.employee-details-section h3 {
+  margin: 0 0 13px;
+  color: #173b68;
+  font-size: 16px;
+}
+
+.employee-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.employee-profile-item {
+  min-width: 0;
+  padding: 15px 16px;
+  border: 1px solid #e0e8f2;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.employee-profile-item span {
+  display: block;
+  margin-bottom: 5px;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.employee-profile-item strong {
+  display: block;
+  color: #173b68;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.employee-details-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+.employee-details-summary > div {
+  padding: 15px;
+  border: 1px solid #e0e8f2;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.employee-details-summary span {
+  display: block;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.employee-details-summary strong {
+  display: block;
+  margin-top: 5px;
+  color: #102b4e;
+  font-size: 25px;
+}
+
+.employee-details-empty {
+  padding: 16px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.employee-details-table {
+  min-width: 560px;
+}
+
+.employee-details-table th,
+.employee-details-table td {
+  padding: 11px 12px;
+}
+
+.employee-row {
+  cursor: pointer;
+}
+
+.employee-row:hover td {
+  background: #edf5ff;
+}
+
+.employee-row:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: -3px;
+}
+
+@media (max-width: 600px) {
+  .employee-details-modal {
+    padding: 8px;
+  }
+
+  .employee-details-panel {
+    max-height: 95vh;
+    border-radius: 12px;
+  }
+
+  .employee-details-header {
+    padding: 18px;
+  }
+
+  .employee-details-header h2 {
+    font-size: 19px;
+  }
+
+  .employee-details-content {
+    padding: 18px;
+  }
+
+  .employee-profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .employee-details-summary {
+    grid-template-columns: 1fr;
+  }
+}
+/* ===== Document renewal workflow ===== */
+.renewal-panel {
+  width: min(100%, 620px);
+}
+
+.renewal-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+}
+
+.renewal-form .renewal-full-width {
+  grid-column: 1 / -1;
+}
+
+.renewal-form input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.renewal-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.expiry-alert {
+  display: inline-block;
+  padding: 4px 8px;
+  margin: 2px 5px 2px 0;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.expiry-alert.expired {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.expiry-alert.soon {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.renew-document-button {
+  background: #b45309;
+}
+
+.renew-document-button:hover {
+  background: #92400e;
+}
+
+@media (max-width: 600px) {
+  .renewal-form {
+    grid-template-columns: 1fr;
+  }
+
+  .renewal-form .renewal-full-width {
+    grid-column: auto;
+  }
+}
+/* Registered Employees: search and sorting controls */
+.employee-list-controls {
+  display: grid;
+  grid-template-columns: minmax(220px, 2fr) minmax(180px, 1fr);
+  gap: 12px;
+  margin: 16px 0;
+  align-items: center;
+}
+
+.employee-list-controls .field {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.employee-list-controls input:focus,
+.employee-list-controls select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+@media (max-width: 650px) {
+  .employee-list-controls {
+    grid-template-columns: 1fr;
+  }
+} 
+.hr-page.active {
+  display: block;
+}
+
+.hr-page:not(.active) {
+  display: none;
+}
+
+
+/* ===== Professional HR dashboard statistic cards ===== */
+
+#hrDashboard .dashboard-stats {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+  width: 100%;
+  margin: 26px 0 24px;
+  align-items: stretch;
+}
+
+#hrDashboard .dashboard-stats > .stat-card {
+  --accent: #2563eb;
+  --accent-bg: #eff6ff;
+
+  position: relative;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0 !important;
+  min-height: 158px;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 25px 24px 22px 27px;
+  overflow: hidden;
+
+  background: linear-gradient(145deg, #ffffff 0%, #f9fbff 100%);
+  border: 1px solid #e1e8f2;
+  border-radius: 15px;
+  border-left: 4px solid var(--accent);
+  box-shadow: 0 3px 10px rgba(16, 43, 78, 0.035);
+
+  cursor: pointer;
+  text-align: left;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* Different accent for each statistic */
+#hrDashboard .dashboard-stats > .stat-card:nth-child(1) {
+  --accent: #2563eb;
+  --accent-bg: #eff6ff;
+}
+
+#hrDashboard .dashboard-stats > .stat-card:nth-child(2) {
+  --accent: #15803d;
+  --accent-bg: #f0fdf4;
+}
+
+#hrDashboard .dashboard-stats > .stat-card:nth-child(3) {
+  --accent: #7c3aed;
+  --accent-bg: #f5f3ff;
+}
+
+#hrDashboard .dashboard-stats > .stat-card:nth-child(4) {
+  --accent: #0284c7;
+  --accent-bg: #f0f9ff;
+}
+
+#hrDashboard .dashboard-stats > .stat-card:nth-child(5) {
+  --accent: #dc2626;
+  --accent-bg: #fef2f2;
+}
+
+#hrDashboard .dashboard-stats > .stat-card:nth-child(6) {
+  --accent: #b45309;
+  --accent-bg: #fffbeb;
+}
+
+/* Small category badge */
+#hrDashboard .dashboard-stats > .stat-card::after {
+  content: attr(data-stat);
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 30px;
+  padding: 0 9px;
+
+  border-radius: 8px;
+  background: var(--accent-bg);
+  color: var(--accent);
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* Statistic title */
+#hrDashboard .dashboard-stats > .stat-card p {
+  max-width: calc(100% - 48px);
+  margin: 0;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: 0.15px;
+}
+
+/* Large, easy-to-read number */
+#hrDashboard .dashboard-stats > .stat-card h3 {
+  margin: 20px 0 0;
+  color: #102b4e;
+  font-size: 38px;
+  font-weight: 750;
+  line-height: 1.1;
+  letter-spacing: -1.2px;
+}
+
+/* Hover and keyboard interaction */
+#hrDashboard .dashboard-stats > .stat-card:hover {
+  transform: translateY(-4px);
+  border-color: #c8d8ed;
+  border-left-color: var(--accent);
+  box-shadow: 0 12px 26px rgba(16, 43, 78, 0.10);
+}
+
+#hrDashboard .dashboard-stats > .stat-card:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+#hrDashboard .dashboard-stats > .stat-card:active {
+  transform: translateY(-1px);
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+  #hrDashboard .dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  #hrDashboard .dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  #hrDashboard .dashboard-stats > .stat-card {
+    min-height: 132px;
+    padding: 19px 16px 18px 19px;
+  }
+
+  #hrDashboard .dashboard-stats > .stat-card::after {
+    top: 14px;
+    right: 13px;
+    min-width: 34px;
+    height: 26px;
+    font-size: 9px;
+  }
+
+  #hrDashboard .dashboard-stats > .stat-card h3 {
+    font-size: 31px;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 420px) {
+  #hrDashboard .dashboard-stats {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  #hrDashboard .dashboard-stats > .stat-card {
+    transition: none;
+  }
+
+  #hrDashboard .dashboard-stats > .stat-card:hover,
+  #hrDashboard .dashboard-stats > .stat-card:active {
+    transform: none;
+  }
+}
+
+
+ </style>
+</head>
+
+<body>
+  <header>
+    <h1>Employee Document Portal</h1>
+    <p>Secure Document Management &amp; Expiry Tracking</p>
+  </header>
+
+  <main>
+    <!-- Company account access -->
+    <section class="card" id="loginCard">
+      <h2>Company account access</h2>
+     
+<p class="muted">
+  Employees can sign in using their Employee ID and password.
+  HR and Super Admin can continue using their authorized
+  company Google account.
+</p>
+
+<div class="login-form">
+  <h3>Employee Login</h3>
+
+  <label for="employeeLoginId">Employee ID</label>
+  <input
+    type="text"
+    id="employeeLoginId"
+    placeholder="EMP-XXXXXXXX"
+    autocomplete="username"
+  />
+
+  <label for="employeeLoginPassword">Password</label>
+  <input
+    type="password"
+    id="employeeLoginPassword"
+    placeholder="Enter your password"
+    autocomplete="current-password"
+  />
+
+  <button
+    type="button"
+    id="employeeLoginButton"
+    onclick="employeePasswordLogin()">
+    Sign in as Employee
+  </button>
+</div>
+
+
+      <button
+        id="retryButton"
+        type="button"
+        onclick="checkCompanyAccount()">
+        Check company account
+      </button>
+
+      <p id="message" role="status" aria-live="polite">
+        Checking your company account...
+      </p>
+    </section>
+
+    <!-- Employee dashboard -->
+    <section class="card hidden" id="dashboard">
+      
+<div id="passwordChangePanel" class="hidden">
+  <h3>Change Your Password</h3>
+  <p class="muted">
+    Your temporary password must be changed before continuing.
+    Use at least 12 characters.
+  </p>
+
+  <label for="currentEmployeePassword">Current Password</label>
+  <input
+    type="password"
+    id="currentEmployeePassword"
+    autocomplete="current-password"
+  />
+
+  <label for="newEmployeePassword">New Password</label>
+  <input
+    type="password"
+    id="newEmployeePassword"
+    autocomplete="new-password"
+  />
+
+  <label for="confirmEmployeePassword">Confirm New Password</label>
+  <input
+    type="password"
+    id="confirmEmployeePassword"
+    autocomplete="new-password"
+  />
+
+  <button type="button" onclick="submitEmployeePasswordChange()">
+    Change Password
+  </button>
+
+  <p id="passwordChangeMessage" role="status" aria-live="polite"></p>
+</div>
+
+      <h2>Welcome, <span id="employeeName"></span></h2>
+      <p id="employeeRole" class="muted"></p>
+      <button type="button" onclick="signOut()">Sign out</button>
+
+      <h3>My Documents</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Document</th>
+              <th>Expiry Date</th>
+              <th>Status</th>
+              <th>View</th>
+            </tr>
+          </thead>
+          <tbody id="documents">
+            <tr>
+              <td colspan="4">No documents loaded.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p id="documentMessage" class="muted" role="status"></p>
+    </section>
+
+    <!-- HR dashboard -->
+    <section class="hidden" id="hrDashboard">
+      <div class="hr-layout">
+        <aside class="hr-sidebar">
+          <div class="hr-sidebar-title">HR Management</div>
+          <nav>
+            <button type="button" class="hr-nav-button active"
+              onclick="showHrPage('overview', this)">Dashboard</button>
+            <button type="button" class="hr-nav-button"
+              onclick="showHrPage('employees', this)">Employees</button>
+            <button type="button" class="hr-nav-button"
+              onclick="showHrPage('familyMembers', this)">Family Members</button>
+            <button type="button" class="hr-nav-button"
+              onclick="showHrPage('employeeDocuments', this)">Employee Documents</button>
+            <button type="button" class="hr-nav-button"
+              onclick="showHrPage('familyDocuments', this)">Family Documents</button>
+            <button type="button" class="hr-nav-button"
+              onclick="showHrPage('companyDocuments', this)">Company Documents</button>
+            <button type="button" class="hr-nav-button"
+              onclick="showHrPage('expiryAlerts', this)">Expiry Alerts</button>
+            <button type="button" class="hr-nav-button"
+              onclick="showHrPage('management', this)">Registration &amp; Uploads</button>
+              
+<button
+  type="button"
+  id="userRoleManagementNav"
+  class="hr-nav-button hidden"
+  onclick="showHrPage('userRoles', this)">
+  User Role Management
+</button>
+
+<button type="button" id="employeeGroupsNav"
+  class="hr-nav-button hidden"
+  onclick="showHrPage('employeeGroups', this)">
+  Employee Group Creation
+</button>
+
+
+          </nav>
+        </aside>
+
+        <div class="hr-main">
+          <h2 id="hrPageTitle">HR Dashboard</h2>
+
+          <div id="hrPage-overview" class="hr-page active">
+            <div class="dashboard-stats">
+              <div class="card stat-card" data-stat="EMP"
+     role="button" tabindex="0"
+     aria-label="View employees"
+     onclick="openHrPage('employees')"
+     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openHrPage('employees')}">
+                <p>Total Employees</p>
+                <h3 id="statEmployees">0</h3>
+              </div>
+
+              <div class="card stat-card" data-stat="ACT"
+     role="button" tabindex="0"
+     aria-label="View employees"
+     onclick="openHrPage('employees')"
+     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openHrPage('employees')}">
+                <p>Active Employees</p>
+                <h3 id="statActiveEmployees">0</h3>
+              </div>
+
+              <div class="card stat-card" data-stat="FAM"
+     role="button" tabindex="0"
+     aria-label="View family members"
+     onclick="openHrPage('familyMembers')"
+     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openHrPage('familyMembers')}">
+                <p>Family Members</p>
+                <h3 id="statFamilyMembers">0</h3>
+              </div>
+
+              <div class="card stat-card" data-stat="DOC"
+     role="button" tabindex="0"
+     aria-label="View employee documents"
+     onclick="openHrPage('employeeDocuments')"
+     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openHrPage('employeeDocuments')}">
+                <p>Total Documents</p>
+                <h3 id="statDocuments">0</h3>
+              </div>
+
+              <div class="card stat-card" data-stat="EXP"
+     role="button" tabindex="0"
+     aria-label="View expiry alerts"
+     onclick="openHrPage('expiryAlerts')"
+     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openHrPage('expiryAlerts')}">
+                <p>Expired Documents</p>
+                <h3 id="statExpired">0</h3>
+              </div>
+
+              <div class="card stat-card" data-stat="DUE"
+     role="button" tabindex="0"
+     aria-label="View expiry alerts"
+     onclick="openHrPage('expiryAlerts')"
+     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openHrPage('expiryAlerts')}">
+                <p>Expiring Within 30 Days</p>
+                <h3 id="statExpiring30">0</h3>
+              </div>
+            </div>
+          </div>
+
+          <p id="hrWelcome" class="muted"></p>
+          <button type="button" onclick="signOut()">Sign out</button>
+
+          <!-- Registration and uploads -->
+          <div id="hrPage-management" class="hr-page">
+            <div id="superAdminTools" class="card hidden">
+              <h3>Super Admin — Company Administration</h3>
+              <p class="muted">Assign an HR email to one company. Company HR users will only see records belonging to their assigned company.</p>
+              <label for="companyHrEmail">Company HR email</label>
+              <input class="field" id="companyHrEmail" type="email" maxlength="254"
+                placeholder="hr@example.com">
+              <label for="companyHrCompanyId">Company</label>
+              <select class="field" id="companyHrCompanyId">
+                <option value="">Select a company</option>
+              </select>
+              <button type="button" onclick="submitCompanyHrAssignment()">Assign HR to Company</button>
+              <p id="companyHrMessage" class="muted" role="status"></p>
+            </div>
+
+            <h3>Register a New Employee</h3>
+            <div class="card">
+              <label for="newEmployeeName">Employee Name</label>
+              <input class="field" id="newEmployeeName" type="text"
+                maxlength="150" placeholder="Enter employee's full name">
+
+              <label for="newEmployeeEmail">Company Email</label>
+              <input class="field" id="newEmployeeEmail" type="email"
+                maxlength="254" placeholder="employee@muscatoverseas.com">
+
+              <div id="newEmployeeCompanyGroup" class="hidden">
+                <label for="newEmployeeCompanyId">Company</label>
+                <select class="field" id="newEmployeeCompanyId" required>
+                  <option value="">Select a company</option>
+                </select>
+                <p class="muted">Super Admin: choose the company this employee belongs to.</p>
+              </div>
+
+              <button type="button" onclick="submitNewEmployee()">Register Employee</button>
+              <p id="addEmployeeMessage" class="muted" role="status"></p>
+            </div>
+
+            <h3>Upload an Employee Document</h3>
+            <div class="card">
+              <label for="uploadEmployeeId">Employee</label>
+              <select class="field" id="uploadEmployeeId">
+                <option value="">Load employees first</option>
+              </select>
+
+              <label for="uploadDocumentType">Document Type</label>
+              <input class="field" id="uploadDocumentType" type="text"
+                maxlength="100" placeholder="e.g. Passport, Visa, ID Card">
+
+              <label for="uploadIssueDate">Issue Date (optional)</label>
+              <input class="field" id="uploadIssueDate" type="date">
+
+              <label for="uploadExpiryDate">Expiry Date (optional)</label>
+              <input class="field" id="uploadExpiryDate" type="date">
+
+              <label for="uploadDocumentFile">
+                Choose PDF, JPG, or PNG (maximum 5 MB)
+              </label>
+              <input id="uploadDocumentFile" type="file"
+                accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+                style="display:block;width:100%;margin:8px 0 16px">
+
+              <button type="button" onclick="submitDocumentUpload()">Upload Document</button>
+              <p id="uploadMessage" class="muted" role="status"></p>
+            </div>
+
+            <h3>Upload a Family Member Document</h3>
+            <div class="card">
+              <label for="familyDocumentMemberId">Family Member</label>
+              <select class="field" id="familyDocumentMemberId">
+                <option value="">Load family members first</option>
+              </select>
+
+              <label for="familyDocumentType">Document Type</label>
+              <select class="field" id="familyDocumentType">
+                <option value="">Select document type</option>
+                <option value="Passport">Passport</option>
+                <option value="Visa">Visa</option>
+                <option value="ID Card">ID Card</option>
+                <option value="Other">Other</option>
+              </select>
+
+              <label for="familyDocumentNumber">Document Number (optional)</label>
+              <input class="field" id="familyDocumentNumber" type="text"
+                maxlength="100" placeholder="Enter document number">
+
+              <label for="familyDocumentName">Document Name</label>
+              <input class="field" id="familyDocumentName" type="text"
+                maxlength="200" placeholder="e.g. Son Passport">
+
+              <label for="familyDocumentIssueDate">Issue Date (optional)</label>
+              <input class="field" id="familyDocumentIssueDate" type="date">
+
+              <label for="familyDocumentExpiryDate">Expiry Date (optional)</label>
+              <input class="field" id="familyDocumentExpiryDate" type="date">
+
+              <label for="familyDocumentFile">
+                Choose PDF, JPG, or PNG (maximum 5 MB)
+              </label>
+              <input id="familyDocumentFile" type="file"
+                accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+                style="display:block;width:100%;margin:8px 0 16px">
+
+              <button type="button" onclick="submitFamilyDocumentUpload()">
+                Upload Family Document
+              </button>
+              <p id="familyDocumentUploadMessage" class="muted" role="status"></p>
+            </div>
+          </div>          <!-- Family members -->
+          <div id="hrPage-familyMembers" class="hr-page">
+            <h3>Register a Family Member</h3>
+            <div class="card">
+              <label for="familyEmployeeId">Employee</label>
+              <select class="field" id="familyEmployeeId">
+                <option value="">Select an employee</option>
+              </select>
+
+              <label for="familyMemberName">Family Member Name</label>
+              <input class="field" id="familyMemberName" type="text"
+                maxlength="150" placeholder="Enter family member's full name">
+
+              <label for="familyRelationship">Relationship</label>
+              <select class="field" id="familyRelationship">
+                <option value="">Select relationship</option>
+                <option value="Spouse">Spouse</option>
+                <option value="Son">Son</option>
+                <option value="Daughter">Daughter</option>
+                <option value="Father">Father</option>
+                <option value="Mother">Mother</option>
+                <option value="Other">Other</option>
+              </select>
+
+              <button type="button" onclick="submitFamilyMember()">
+                Register Family Member
+              </button>
+              <p id="familyMemberMessage" class="muted" role="status"></p>
+            </div>
+          </div>
+
+          <!-- Employee records -->
+          <div id="hrPage-employees" class="hr-page">
+            <h3>Registered Employees</h3>
+
+<div class="employee-list-controls">
+  <input
+    id="employeeSearchInput"
+    class="field"
+    type="search"
+    placeholder="Search by employee ID, name, or email..."
+    aria-label="Search employees"
+    oninput="renderRegisteredEmployees()">
+
+  <select
+    id="employeeSortSelect"
+    class="field"
+    aria-label="Sort employees"
+    onchange="renderRegisteredEmployees()">
+    <option value="nameAsc">Name (A–Z)</option>
+    <option value="nameDesc">Name (Z–A)</option>
+    <option value="idAsc">Employee ID (A–Z)</option>
+    <option value="idDesc">Employee ID (Z–A)</option>
+    <option value="activeFirst">Active Employees First</option>
+  </select>
+</div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Employee ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="hrEmployees">
+                  <tr><td colspan="4">Loading employees...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Employee documents -->
+          <div id="hrPage-employeeDocuments" class="hr-page">
+            <h3>All Document Records</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Employee ID</th>
+                    <th>Document</th>
+                    <th>Issue Date</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="hrDocuments">
+                  <tr><td colspan="6">Loading documents...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Family documents -->
+          <div id="hrPage-familyDocuments" class="hr-page">
+            <h3>Family Document Records</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Employee</th>
+                    <th>Family Member</th>
+                    <th>Relationship</th>
+                    <th>Document</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="hrFamilyDocuments">
+                  <tr><td colspan="7">Loading family documents...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+         
+<!-- User Role Management -->
+<div id="hrPage-userRoles" class="hr-page">
+  <h3>User Role Management</h3>
+
+  <div class="card">
+    <p class="muted">
+      View registered users, their assigned roles, company assignments,
+      and account status.
+    </p>
+
+    <button type="button" onclick="loadUserRoleManagement()">
+      Refresh User List
+    </button>
+    
+<label for="userRoleFilter">Filter users by role</label>
+<select
+  class="field"
+  id="userRoleFilter"
+  onchange="loadUserRoleManagement()">
+  <option value="ALL">All roles</option>
+  <option value="Admin">Admin</option>
+  <option value="HR">HR</option>
+  <option value="Employee">Employee</option>
+</select>
+
+
+<div class="card">
+  <h4>Change User Role</h4>
+
+  <label for="roleEditEmail">User Email</label>
+  <input class="field" id="roleEditEmail" type="email"
+    placeholder="Enter registered email">
+
+  <label for="roleEditType">New Role</label>
+  <select class="field" id="roleEditType">
+    <option value="HR">HR</option>
+    <option value="EMPLOYEE">Employee</option>
+  </select>
+
+  <div id="roleEditCompanyGroup">
+    <label for="roleEditCompany">Company</label>
+    <select class="field" id="roleEditCompany">
+      <option value="">Select a company</option>
+    </select>
+  </div>
+
+  <button type="button" onclick="saveRoleFromPage()">
+    Save Role
+  </button>
+  <p id="roleEditMessage" class="muted" role="status"></p>
+</div>
+
+    <p id="userRoleManagementMessage" class="muted" role="status"></p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Name</th>
+            <th>Email / Username</th>
+            <th>Company</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="userRoleManagementTable">
+          <tr>
+            <td colspan="5">Click Refresh User List to load users.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Employee Group Management -->
+<div id="hrPage-employeeGroups" class="hr-page">
+  <h3>Employee Group Creation</h3>
+
+  <div class="card">
+    <h4>Create Employee Group</h4>
+
+    <label for="employeeGroupName">Group Name *</label>
+    <input
+      class="field"
+      id="employeeGroupName"
+      type="text"
+      maxlength="100"
+      placeholder="e.g. Accounts Team">
+
+    <label for="employeeGroupCompany">Company *</label>
+    <select class="field" id="employeeGroupCompany">
+      <option value="">Loading companies...</option>
+    </select>
+
+    <button type="button" onclick="submitEmployeeGroup()">
+      Create Group
+    </button>
+
+    <p id="employeeGroupMessage" class="muted" role="status"></p>
+  </div>
+
+  <div class="card">
+    <h4>Existing Employee Groups</h4>
+
+    <button type="button" onclick="loadEmployeeGroupManagement()">
+      Refresh Groups
+    </button>
+
+    <p id="employeeGroupsListMessage" class="muted" role="status"></p>
+
+    
+<div class="card">
+  <h4>Assign HR to Employee Group</h4>
+
+  <label for="assignGroupSelect">Employee Group</label>
+  <select id="assignGroupSelect" class="field">
+    <option value="">Load groups first</option>
+  </select>
+
+  <label for="assignGroupHrSelect">HR User</label>
+  <select id="assignGroupHrSelect" class="field">
+    <option value="">Load HR users first</option>
+  </select>
+
+  <button type="button" onclick="submitHrGroupAssignment()">
+    Assign HR
+  </button>
+
+  <p id="assignHrGroupMessage" class="muted" role="status"></p>
+</div>
+
+<div class="card">
+  <h4>Assign Employee to Group</h4>
+
+  <label for="assignEmployeeGroupSelect">Employee Group</label>
+  <select id="assignEmployeeGroupSelect" class="field">
+    <option value="">Load groups first</option>
+  </select>
+
+  <label for="assignEmployeeSelect">Employee</label>
+  <select id="assignEmployeeSelect" class="field">
+    <option value="">Load employees first</option>
+  </select>
+
+  <button type="button" onclick="submitEmployeeGroupAssignment()">
+    Assign Employee
+  </button>
+
+  <p id="assignEmployeeGroupMessage" class="muted" role="status"></p>
+</div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Group Name</th>
+            <th>Company</th>
+            <th>Assigned HR</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="employeeGroupsTable">
+          <tr>
+            <td colspan="4">Click Refresh Groups to load groups.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+          <p id="hrMessage" class="muted" role="status"></p>
+
+          
+<!-- Expiry alerts -->
+
+<!-- Company Documents Renewal Tracker -->
+<div id="hrPage-companyDocuments" class="hr-page">
+  <h3>Company Documents Renewal Tracker</h3>
+
+  <div class="card">
+    <h4>Upload Company Document</h4>
+
+    <div id="companyDocCompanyGroup" class="hidden">
+      <label for="companyDocCompanyId">Company *</label>
+      <select class="field" id="companyDocCompanyId">
+        <option value="">Select a company</option>
+      </select>
+    </div>
+
+    <label for="companyDocCategory">Category *</label>
+    <select class="field" id="companyDocCategory">
+      <option value="">Select category</option>
+      <option>Visa</option>
+      <option>Insurance</option>
+      <option>Rent Agreement</option>
+      <option>ID Card</option>
+      <option>Fire &amp; Safety Certificate</option>
+      <option>Chamber of Commerce Certificate</option>
+      <option>Vehicle Mulkiya</option>
+      <option>Municipality Certificate</option>
+      <option>Employee Contract</option>
+      <option>Tourism Certificate</option>
+      <option>Logo Renewal</option>
+      <option>Tax Certificate</option>
+      <option>Passport</option>
+      <option>CR</option>
+      <option>Others</option>
+    </select>
+
+    <label for="companyDocName">Document Name *</label>
+    <input class="field" id="companyDocName" type="text"
+      maxlength="200" placeholder="Enter document name">
+
+    <label for="companyDocNumber">Document Number</label>
+    <input class="field" id="companyDocNumber" type="text"
+      maxlength="100" placeholder="Optional">
+
+    <label for="companyDocIssueDate">Issue Date</label>
+    <input class="field" id="companyDocIssueDate" type="date">
+
+    <label for="companyDocExpiryDate">Expiry Date</label>
+    <input class="field" id="companyDocExpiryDate" type="date">
+
+    <label for="companyDocFile">Document File (PDF, JPG, PNG; maximum 5 MB) *</label>
+    <input id="companyDocFile" type="file"
+      accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+      style="display:block;width:100%;margin:8px 0 16px">
+
+    <button type="button" onclick="submitCompanyDocumentUpload()">
+      Upload Company Document
+    </button>
+
+    <p id="companyDocUploadMessage" class="muted" role="status"></p>
+  </div>
+
+  <h3>Company Document Records</h3>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Category</th>
+          <th>Document</th>
+          <th>Document Number</th>
+          <th>Expiry Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="companyDocumentRows">
+        <tr><td colspan="7">Open this page to load company documents.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p id="companyDocumentsMessage" class="muted" role="status"></p>
+</div>
+<!-- End Company Documents Renewal Tracker -->
+
+<div id="hrPage-expiryAlerts" class="hr-page">
+  <h3>Document Expiry Alerts</h3>
+
+  <div class="card">
+    
+<div id="superAdminExpirySettings" class="card hidden">
+  <h3>Expiry Reminder Settings</h3>
+  <p class="muted">
+    Select which reminder emails should be enabled.
+    These settings apply to employee, family-member, and company documents.
+  </p>
+
+  <div id="expirySettingsOptions">
+    <label><input type="checkbox" id="alertDay90"> 90 days before expiry</label>
+    <label><input type="checkbox" id="alertDay60"> 60 days before expiry</label>
+    <label><input type="checkbox" id="alertDay30"> 30 days before expiry</label>
+    <label><input type="checkbox" id="alertDay15"> 15 days before expiry</label>
+    <label><input type="checkbox" id="alertDay7"> 7 days before expiry</label>
+    <label><input type="checkbox" id="alertDay0"> On the expiry date</label>
+  </div>
+
+  <button type="button" id="saveExpirySettingsButton"
+    onclick="saveExpirySettingsFromPage()">
+    Save Reminder Settings
+  </button>
+
+  <p id="expirySettingsMessage" class="muted" role="status"></p>
+</div>
+
+    <p>
+      Review expired documents and documents approaching their expiry dates.
+    </p>
+    <p class="muted">
+      This list includes employee and family-member documents.
+      Renewal actions are available for documents requiring attention.
+    </p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Family Member</th>
+            <th>Document</th>
+            <th>Expiry Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="hrExpiryAlerts">
+          <tr>
+            <td colspan="6">Load the dashboard to view expiry alerts.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p id="expiryAlertsMessage" class="muted" role="status"></p>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </section><!-- Employee Details Popup -->
+<div id="employeeDetailsModal"
+     class="employee-details-modal hidden"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="employeeDetailsTitle"
+     onclick="if(event.target === this) closeEmployeeDetails()">
+
+  <div class="employee-details-panel">
+
+    <div class="employee-details-header">
+      <div>
+        <h2 id="employeeDetailsTitle">Employee Profile</h2>
+        <p id="employeeDetailsSubtitle">Employee information</p>
+      </div>
+
+      <button type="button"
+              class="employee-details-close"
+              onclick="closeEmployeeDetails()"
+              aria-label="Close employee details">
+        Close ✕
+      </button>
+    </div>
+
+    <div class="employee-details-content">
+
+      <div class="employee-details-section">
+        <h3>Employee Information</h3>
+
+        <div class="employee-profile-grid">
+          <div class="employee-profile-item">
+            <span>Employee ID</span>
+            <strong id="detailEmployeeId">—</strong>
+          </div>
+
+          <div class="employee-profile-item">
+            <span>Full Name</span>
+            <strong id="detailEmployeeName">—</strong>
+          </div>
+
+          <div class="employee-profile-item">
+            <span>Company Email</span>
+            <strong id="detailEmployeeEmail">—</strong>
+          </div>
+
+          <div class="employee-profile-item">
+            <span>Employment Status</span>
+            <strong id="detailEmployeeStatus">—</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="employee-details-summary">
+        <div>
+          <span>Employee Documents</span>
+          <strong id="detailDocumentCount">0</strong>
+        </div>
+
+        <div>
+          <span>Family Members</span>
+          <strong id="detailFamilyCount">0</strong>
+        </div>
+
+        <div>
+          <span>Family Documents</span>
+          <strong id="detailFamilyDocumentCount">0</strong>
+        </div>
+      </div>
+
+      <div class="employee-details-section">
+        <h3>Employee Documents</h3>
+
+        <div class="table-container">
+          <table class="employee-details-table">
+            <thead>
+              <tr>
+                <th>Document</th>
+                <th>Issue Date</th>
+                <th>Expiry Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody id="detailEmployeeDocuments">
+              <tr>
+                <td colspan="5">Select an employee to view documents.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="employee-details-section">
+        <h3>Family Members</h3>
+
+        <div class="table-container">
+          <table class="employee-details-table">
+            <thead>
+              <tr>
+                <th>Family Member ID</th>
+                <th>Name</th>
+                <th>Relationship</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody id="detailFamilyMembers">
+              <tr>
+                <td colspan="4">No family members loaded.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="employee-details-section">
+        <h3>Family Member Documents</h3>
+
+        <div class="table-container">
+          <table class="employee-details-table">
+            <thead>
+              <tr>
+                <th>Family Member</th>
+                <th>Document</th>
+                <th>Expiry Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody id="detailFamilyDocuments">
+              <tr>
+                <td colspan="5">No family documents loaded.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p id="employeeDetailsMessage"
+         class="muted"
+         role="status"></p>
+
+    </div>
+  </div>
+</div>
+<!-- End Employee Details Popup -->
+<!-- Document Renewal Popup -->
+<div id="renewalModal"
+     class="employee-details-modal hidden"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="renewalTitle"
+     onclick="if(event.target === this) closeRenewalModal()">
+
+  <div class="employee-details-panel renewal-panel">
+    <div class="employee-details-header">
+      <div>
+        <h2 id="renewalTitle">Renew Document</h2>
+        <p id="renewalDocumentDescription">
+          Upload the replacement document and enter its new expiry date.
+        </p>
+      </div>
+
+      <button type="button"
+              class="employee-details-close"
+              onclick="closeRenewalModal()">
+        Close ✕
+      </button>
+    </div>
+
+    <div class="employee-details-content">
+      <form id="renewalForm"
+            class="renewal-form"
+            onsubmit="submitDocumentRenewal(event)">
+
+        <input type="hidden" id="renewalDocumentKind">
+        <input type="hidden" id="renewalDocumentId">
+
+        <div class="renewal-full-width">
+          <label for="renewalDocumentName">Document</label>
+          <input class="field"
+                 id="renewalDocumentName"
+                 type="text"
+                 readonly>
+        </div>
+
+        <div>
+          <label for="renewalIssueDate">New Issue Date</label>
+          <input class="field"
+                 id="renewalIssueDate"
+                 type="date">
+        </div>
+
+        <div>
+          <label for="renewalExpiryDate">New Expiry Date *</label>
+          <input class="field"
+                 id="renewalExpiryDate"
+                 type="date"
+                 required>
+        </div>
+
+        <div class="renewal-full-width">
+          <label for="renewalFile">Replacement Document *</label>
+          <input id="renewalFile"
+                 type="file"
+                 accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+                 required>
+          <p class="muted">PDF, JPG, or PNG. Maximum file size: 5 MB.</p>
+        </div>
+
+        <div class="renewal-full-width">
+          <p id="renewalMessage"
+             class="muted"
+             role="status"
+             aria-live="polite"></p>
+        </div>
+
+        <div class="renewal-full-width renewal-actions">
+          <button type="button"
+                  class="employee-details-close"
+                  onclick="closeRenewalModal()">
+            Cancel
+          </button>
+
+          <button id="renewalSubmitButton" type="submit">
+            Upload Renewal
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- End Document Renewal Popup -->
+
+  </main>
+
+  <script>
+    let currentUser = null;
+    let employeeSessionToken = null;
+    let hrDashboardData = {
+  employees: [],
+  documents: [],
+  familyMembers: [],
+  familyDocuments: []
+};
+    let requestInProgress = false;
+
+    window.onload = checkCompanyAccount;
+  
+function employeePasswordLogin() {
+  const employeeId = document
+    .getElementById('employeeLoginId').value.trim();
+
+  const password = document
+    .getElementById('employeeLoginPassword').value;
+
+  const button = document.getElementById('employeeLoginButton');
+  const message = document.getElementById('message');
+
+  if (!employeeId || !password) {
+    message.textContent = 'Enter your Employee ID and password.';
+    return;
+  }
+
+  button.disabled = true;
+  message.textContent = 'Signing in...';
+
+  google.script.run
+    .withSuccessHandler(function(result) {
+      button.disabled = false;
+
+      if (!result || !result.success || !result.token) {
+        message.textContent = 'Unable to sign in. Please try again.';
+        return;
+      }
+
+      employeeSessionToken = result.token;
+      currentUser = result.user;
+
+      document.getElementById('loginCard').classList.add('hidden');
+      document.getElementById('hrDashboard').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+
+      document.getElementById('employeeName').textContent =
+        result.user.name || result.user.employeeId;
+
+      document.getElementById('employeeRole').textContent = 'Employee';
+
+      document.getElementById('employeeLoginPassword').value = '';
+      message.textContent = '';
+
+      loadDocuments();
+
+      if (result.mustChangePassword) {
+  document.getElementById('passwordChangePanel')
+    .classList.remove('hidden');
+
+  document.getElementById('documentMessage').textContent =
+    'Change your temporary password before continuing.';
+} else {
+  document.getElementById('passwordChangePanel')
+    .classList.add('hidden');
+}
+    })
+    .withFailureHandler(function(error) {
+      button.disabled = false;
+      message.textContent =
+        error && error.message
+          ? error.message
+          : 'Sign-in failed. Please try again.';
+    })
+    .employeePasswordLogin(employeeId, password);
+}
+  
+function submitEmployeePasswordChange() {
+  const currentPassword =
+    document.getElementById('currentEmployeePassword').value;
+
+  const newPassword =
+    document.getElementById('newEmployeePassword').value;
+
+  const confirmPassword =
+    document.getElementById('confirmEmployeePassword').value;
+
+  const message =
+    document.getElementById('passwordChangeMessage');
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    message.textContent = 'Please fill in all password fields.';
+    return;
+  }
+
+  if (newPassword.length < 12) {
+    message.textContent =
+      'Your new password must contain at least 12 characters.';
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    message.textContent = 'The new passwords do not match.';
+    return;
+  }
+
+  message.textContent = 'Changing password...';
+
+  google.script.run
+    .withSuccessHandler(function(result) {
+      if (!result || !result.success) {
+        message.textContent = 'Unable to change your password.';
+        return;
+      }
+
+      document.getElementById('currentEmployeePassword').value = '';
+      document.getElementById('newEmployeePassword').value = '';
+      document.getElementById('confirmEmployeePassword').value = '';
+
+      document.getElementById('passwordChangePanel')
+        .classList.add('hidden');
+
+      message.textContent = result.message || 'Password changed successfully.';
+
+      loadDocuments();
+    })
+    .withFailureHandler(function(error) {
+      message.textContent =
+        error && error.message
+          ? error.message
+          : 'Unable to change your password.';
+    })
+    .changeEmployeePassword(
+      employeeSessionToken,
+      currentPassword,
+      newPassword
+    );
+}
+
+    // Verify the current Google account through Apps Script.
+    function checkCompanyAccount() {
+      if (requestInProgress) return;
+
+      requestInProgress = true;
+
+      const button = document.getElementById('retryButton');
+      const message = document.getElementById('message');
+
+      button.disabled = true;
+      message.textContent = 'Checking your company account...';
+
+      google.script.run
+        .withSuccessHandler(function(user) {
+          requestInProgress = false;
+          button.disabled = false;
+
+          if (!user || !user.email || !user.role) {
+            message.textContent =
+              'Your account could not be verified. Please contact HR.';
+            return;
+          }
+
+          currentUser = user;
+
+          if (user.role === 'HR' || user.role === 'SUPER_ADMIN') {
+            document.getElementById('loginCard')
+              .classList.add('hidden');
+
+            document.getElementById('dashboard')
+              .classList.add('hidden');
+
+            document.getElementById('hrDashboard')
+              .classList.remove('hidden');
+
+            document.getElementById('hrWelcome').textContent =
+              'Signed in as ' + user.email +
+              (user.role === 'SUPER_ADMIN' ? ' · Super Admin' : ' · Company HR');
+
+            const adminTools = document.getElementById('superAdminTools');
+            const companyGroup = document.getElementById('newEmployeeCompanyGroup');
+            const companyDocCompanyGroup =
+  document.getElementById('companyDocCompanyGroup');
+            if (adminTools) adminTools.classList.toggle('hidden', user.role !== 'SUPER_ADMIN');
+            if (companyGroup) companyGroup.classList.toggle('hidden', user.role !== 'SUPER_ADMIN');
+            if (companyDocCompanyGroup) {
+  companyDocCompanyGroup.classList.toggle(
+    'hidden',
+    user.role !== 'SUPER_ADMIN'
+  );
+}
+            if (user.role === 'SUPER_ADMIN') loadActiveCompaniesForSuperAdmin();
+            
+const expirySettingsPanel =
+  document.getElementById('superAdminExpirySettings');
+
+if (expirySettingsPanel) {
+  expirySettingsPanel.classList.toggle(
+    'hidden',
+    user.role !== 'SUPER_ADMIN'
+  );
+}
+
+if (user.role === 'SUPER_ADMIN') {
+  loadExpirySettingsIntoPage();
+}
+
+const userRoleManagementNav =
+  document.getElementById('userRoleManagementNav');
+
+if (userRoleManagementNav) {
+  userRoleManagementNav.classList.toggle(
+    'hidden',
+    user.role !== 'SUPER_ADMIN'
+  );
+  
+const employeeGroupsNav = document.getElementById('employeeGroupsNav');
+
+if (employeeGroupsNav) {
+  employeeGroupsNav.classList.toggle(
+    'hidden',
+    user.role !== 'SUPER_ADMIN'
+  );
+}
+
+}
+
+
+            loadHrDashboard();
+            return;
+          }
+
+          if (user.role === 'Employee') {
+            const adminTools = document.getElementById('superAdminTools');
+            const companyGroup = document.getElementById('newEmployeeCompanyGroup');
+            if (adminTools) adminTools.classList.add('hidden');
+            if (companyGroup) companyGroup.classList.add('hidden');
+            document.getElementById('loginCard')
+              .classList.add('hidden');
+
+            document.getElementById('hrDashboard')
+              .classList.add('hidden');
+
+            document.getElementById('dashboard')
+              .classList.remove('hidden');
+
+            document.getElementById('employeeName').textContent =
+              user.name || user.email;
+
+            document.getElementById('employeeRole').textContent =
+              'Role: ' + user.role;
+
+            loadDocuments();
+            return;
+          }
+
+          message.textContent =
+            'Your account does not have an authorized portal role.';
+        })
+        .withFailureHandler(function(error) {
+          requestInProgress = false;
+          button.disabled = false;
+
+          message.textContent =
+            error && error.message
+              ? error.message
+              : 'Unable to verify your company account. Please contact HR.';
+        })
+        .getCurrentUser();
+    }
+
+    // Load documents belonging to the signed-in employee.
+        function loadDocuments() {
+      const tbody = document.getElementById('documents');
+      const message = document.getElementById('documentMessage');
+
+      tbody.innerHTML =
+        '<tr><td colspan="4">Loading your documents...</td></tr>';
+
+      message.textContent = '';
+
+      google.script.run
+        .withSuccessHandler(function(documents) {
+          
+          tbody.innerHTML = '';
+
+          if (!Array.isArray(documents) || documents.length === 0) {
+            tbody.innerHTML =
+              '<tr><td colspan="4">No documents assigned to you.</td></tr>';
+            return;
+          }
+
+          documents.forEach(function(doc) {
+            const row = document.createElement('tr');
+
+            const name = document.createElement('td');
+            name.textContent = doc.name || doc.type || 'Document';
+
+            const expiry = document.createElement('td');
+            expiry.textContent = formatDate(doc.expiryDate);
+
+            const status = document.createElement('td');
+            const expiryStatus = getExpiryStatus(doc.expiryDate);
+            status.textContent = expiryStatus;
+
+            const view = document.createElement('td');
+            const viewButton = document.createElement('button');
+
+            viewButton.type = 'button';
+            viewButton.textContent = 'View Document';
+
+            viewButton.addEventListener('click', function() {
+              viewButton.disabled = true;
+              viewButton.textContent = 'Loading...';
+              message.textContent = '';
+
+              google.script.run
+                .withSuccessHandler(function(fileData) {
+                  viewButton.disabled = false;
+                  viewButton.textContent = 'View Document';
+
+                  try {
+                    const bytes = atob(fileData.base64Data);
+                    const numbers = new Array(bytes.length);
+
+                    for (let i = 0; i < bytes.length; i++) {
+                      numbers[i] = bytes.charCodeAt(i);
+                    }
+
+                    const blob = new Blob(
+                      [new Uint8Array(numbers)],
+                      { type: fileData.mimeType }
+                    );
+
+                    const url = URL.createObjectURL(blob);
+                    const opened = window.open(url, '_blank');
+
+                    if (!opened) {
+                      URL.revokeObjectURL(url);
+                      message.textContent =
+                        'Your browser blocked the document window. Allow pop-ups and try again.';
+                      return;
+                    }
+
+                    setTimeout(function() {
+                      URL.revokeObjectURL(url);
+                    }, 60000);
+                  } catch (error) {
+                    message.textContent = 'Unable to open this document.';
+                  }
+                })
+                .withFailureHandler(function(error) {
+                  viewButton.disabled = false;
+                  viewButton.textContent = 'View Document';
+
+                  message.textContent =
+                    error && error.message
+                      ? error.message
+                      : 'Unable to open this document.';
+                })
+                .getAuthorizedDocumentFile(doc.documentId, employeeSessionToken);
+            });
+
+            view.appendChild(viewButton);
+            // Show a clickable expiry warning when renewal is needed.
+if (
+  expiryStatus === 'Expired' ||
+  expiryStatus === 'Expiring soon'
+) {
+  const renewalAlert = document.createElement('button');
+
+  renewalAlert.type = 'button';
+  renewalAlert.className = 'renew-document-button';
+
+  renewalAlert.textContent =
+    expiryStatus === 'Expired'
+      ? '⚠ Expired — Renew'
+      : '⚠ Expiring soon — Renew';
+
+  renewalAlert.setAttribute(
+    'aria-label',
+    'Renew ' + (doc.name || doc.type || 'document') +
+    '. Status: ' + expiryStatus
+  );
+
+  renewalAlert.addEventListener('click', function() {
+    openRenewalModal(
+      'employee',
+      doc.documentId,
+      doc.name || doc.type || 'Document'
+    );
+  });
+
+  view.appendChild(renewalAlert);
+}
+
+            [name, expiry, status, view].forEach(function(cell) {
+              row.appendChild(cell);
+            });
+
+            tbody.appendChild(row);
+          });
+        })
+        .withFailureHandler(function(error) {
+          tbody.innerHTML = '';
+
+          const row = document.createElement('tr');
+          const cell = document.createElement('td');
+
+          cell.colSpan = 4;
+          cell.textContent =
+            error && error.message
+              ? error.message
+              : 'Unable to load documents.';
+
+          row.appendChild(cell);
+          tbody.appendChild(row);
+        })
+        .getMyDocuments(
+  employeeSessionToken || null
+);
+    }
+
+    function formatDate(value) {
+      if (!value) return 'Not specified';
+
+      const date = new Date(value);
+
+      if (isNaN(date.getTime())) {
+        return String(value);
+      }
+
+      return date.toLocaleDateString();
+    }
+
+    function getExpiryStatus(value) {
+      if (!value) return 'No expiry date';
+
+      const expiry = new Date(value);
+
+      if (isNaN(expiry.getTime())) {
+        return 'Date unavailable';
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      expiry.setHours(0, 0, 0, 0);
+
+      const days = Math.ceil(
+        (expiry.getTime() - today.getTime()) / 86400000
+      );
+
+      if (days < 0) return 'Expired';
+      if (days <= 30) return 'Expiring soon';
+
+      return 'Valid';
+    }
+        function loadHrDashboard() {
+      const employeeBody = document.getElementById('hrEmployees');
+      const documentBody = document.getElementById('hrDocuments');
+      const message = document.getElementById('hrMessage');
+      const employeeSelect = document.getElementById('uploadEmployeeId');
+
+      employeeBody.innerHTML =
+        '<tr><td colspan="4">Loading employees...</td></tr>';
+
+      documentBody.innerHTML =
+        '<tr><td colspan="6">Loading documents...</td></tr>';
+
+      message.textContent = '';
+
+      loadFamilyEmployees();
+      loadFamilyDocumentMembers();
+      loadHrFamilyDocuments();
+
+      google.script.run
+        .withSuccessHandler(function(data) {
+          employeeBody.innerHTML = '';
+          documentBody.innerHTML = '';
+
+          const employees = data.employees || [];
+          const documents = data.documents || [];
+          hrDashboardData = {
+  employees: employees,
+  documents: documents,
+  familyMembers: data.familyMembers || [],
+  familyDocuments: data.familyDocuments || []
+};
+renderExpiryAlerts();
+          const counts = data.counts || {};
+
+          document.getElementById('statEmployees').textContent =
+            counts.totalEmployees || 0;
+
+          document.getElementById('statActiveEmployees').textContent =
+            counts.activeEmployees || 0;
+
+          document.getElementById('statFamilyMembers').textContent =
+            counts.totalFamilyMembers || 0;
+
+          document.getElementById('statDocuments').textContent =
+            counts.totalDocuments || 0;
+
+          document.getElementById('statExpired').textContent =
+            counts.expired || 0;
+
+          document.getElementById('statExpiring30').textContent =
+            (counts.expiringIn15Days || 0) +
+            (counts.expiringIn30Days || 0);
+
+          // Fill the upload employee dropdown.
+          employeeSelect.innerHTML = '';
+
+          const placeholder = document.createElement('option');
+          placeholder.value = '';
+          placeholder.textContent = 'Select an employee';
+          employeeSelect.appendChild(placeholder);
+
+          employees.forEach(function(employee) {
+            if (employee.active) {
+              const option = document.createElement('option');
+              option.value = employee.employeeId;
+              option.textContent =
+                employee.name + ' (' + employee.employeeId + ')';
+              employeeSelect.appendChild(option);
+            }
+          });
+
+          if (employeeSelect.options.length === 1) {
+            placeholder.textContent = 'No active employees available';
+          }
+
+          // Render registered employees.
+hrDashboardData.employees = employees;
+renderRegisteredEmployees();
+
+          // Render document records and their view buttons.
+          if (documents.length === 0) {
+            documentBody.innerHTML =
+              '<tr><td colspan="6">No document records found.</td></tr>';
+          } else {
+            documents.forEach(function(doc) {
+              const row = document.createElement('tr');
+
+              [
+                doc.employeeId,
+                doc.name || doc.type || 'Document',
+                doc.issueDate,
+                doc.expiryDate,
+                getExpiryStatus(doc.expiryDate)
+              ].forEach(function(value) {
+                const cell = document.createElement('td');
+                cell.textContent = value || 'Not specified';
+                row.appendChild(cell);
+              });
+
+              const actionCell = document.createElement('td');
+              const viewButton = document.createElement('button');
+
+              viewButton.type = 'button';
+              viewButton.textContent = 'View Document';
+
+              viewButton.addEventListener('click', function() {
+                viewButton.disabled = true;
+                viewButton.textContent = 'Loading...';
+                message.textContent = '';
+
+                google.script.run
+                  .withSuccessHandler(function(fileData) {
+                    viewButton.disabled = false;
+                    viewButton.textContent = 'View Document';
+
+                    try {
+                      const bytes = atob(fileData.base64Data);
+                      const numbers = new Array(bytes.length);
+
+                      for (let i = 0; i < bytes.length; i++) {
+                        numbers[i] = bytes.charCodeAt(i);
+                      }
+
+                      const blob = new Blob(
+                        [new Uint8Array(numbers)],
+                        { type: fileData.mimeType }
+                      );
+
+                      const url = URL.createObjectURL(blob);
+                      const opened = window.open(url, '_blank');
+
+                      if (!opened) {
+                        URL.revokeObjectURL(url);
+                        message.textContent =
+                          'Your browser blocked the document window. Allow pop-ups and try again.';
+                        return;
+                      }
+
+                      setTimeout(function() {
+                        URL.revokeObjectURL(url);
+                      }, 60000);
+                    } catch (error) {
+                      message.textContent = 'Unable to open this document.';
+                    }
+                  })
+                  .withFailureHandler(function(error) {
+                    viewButton.disabled = false;
+                    viewButton.textContent = 'View Document';
+
+                    message.textContent =
+                      error && error.message
+                        ? error.message
+                        : 'Unable to open this document.';
+                  })
+                  .getAuthorizedDocumentFile(doc.documentId, employeeSessionToken);
+              });
+
+              actionCell.appendChild(viewButton);
+              // Add an expiry warning and renewal button when needed.
+const expiryStatus = getExpiryStatus(doc.expiryDate);
+
+if (
+  expiryStatus === 'Expired' ||
+  expiryStatus === 'Expiring soon'
+) {
+  const renewalAlert = document.createElement('button');
+
+  renewalAlert.type = 'button';
+  renewalAlert.className = 'renew-document-button';
+
+  renewalAlert.textContent =
+    expiryStatus === 'Expired'
+      ? '⚠ Expired — Renew'
+      : '⚠ Expiring soon — Renew';
+
+  renewalAlert.addEventListener('click', function() {
+    openRenewalModal(
+      'employee',
+      doc.documentId,
+      doc.name || doc.type || 'Document'
+    );
+  });
+
+  actionCell.appendChild(renewalAlert);
+}
+              row.appendChild(actionCell);
+              documentBody.appendChild(row);
+            });
+          }
+        })
+        .withFailureHandler(function(error) {
+          employeeBody.innerHTML =
+            '<tr><td colspan="4">Unable to load employees.</td></tr>';
+
+          documentBody.innerHTML =
+            '<tr><td colspan="6">Unable to load document records.</td></tr>';
+
+          employeeSelect.innerHTML =
+            '<option value="">Unable to load employees</option>';
+
+          message.textContent =
+            error && error.message
+              ? error.message
+              : 'Unable to load HR dashboard data.';
+        })
+        .getHrDashboardData();
+    }
+    
+function renderExpiryAlerts() {
+  const tbody = document.getElementById('hrExpiryAlerts');
+  const message = document.getElementById('expiryAlertsMessage');
+
+  if (!tbody) return;
+
+  tbody.replaceChildren();
+
+  const employeeDocs = (hrDashboardData.documents || []).map(doc => ({
+    ...doc,
+    kind: 'employee',
+    displayName: doc.name || doc.type || 'Document',
+    memberName: '—',
+    recordId: doc.documentId
+  }));
+
+  const familyDocs = (hrDashboardData.familyDocuments || []).map(doc => ({
+    ...doc,
+    kind: 'family',
+    displayName: doc.name || doc.type || 'Family document',
+    memberName: doc.familyMemberName || '—',
+    recordId: doc.familyDocumentId
+  }));
+
+  const alerts = employeeDocs.concat(familyDocs).filter(doc => {
+    const status = String(doc.status || '');
+    return status === 'Expired' || status.startsWith('Expires in ');
+  });
+
+  // Show the most urgent documents first.
+  alerts.sort((a, b) => {
+    if (a.status === 'Expired' && b.status !== 'Expired') return -1;
+    if (b.status === 'Expired' && a.status !== 'Expired') return 1;
+
+    return String(a.expiryDate || '').localeCompare(
+      String(b.expiryDate || '')
+    );
+  });
+
+  if (alerts.length === 0) {
+    const row = tbody.insertRow();
+    const cell = row.insertCell();
+    cell.colSpan = 6;
+    cell.textContent = 'No expired or upcoming-expiry documents found.';
+    if (message) message.textContent = '';
+    return;
+  }
+
+  alerts.forEach(doc => {
+    const row = tbody.insertRow();
+
+    [
+      doc.employeeName || doc.employeeId || '—',
+      doc.memberName,
+      doc.displayName,
+      doc.expiryDate || 'Not specified',
+      doc.status
+    ].forEach(value => {
+      const cell = row.insertCell();
+      cell.textContent = value || '—';
+    });
+
+    const actionCell = row.insertCell();
+    const renewButton = document.createElement('button');
+
+    renewButton.type = 'button';
+    renewButton.textContent = 'Renew document';
+
+    renewButton.addEventListener('click', () => {
+      openRenewalModal(
+        doc.kind,
+        doc.recordId,
+        doc.displayName
+      );
+    });
+
+    actionCell.appendChild(renewButton);
+  });
+
+  if (message) {
+    message.textContent = alerts.length +
+      ' document(s) require attention.';
+  }
+}
+
+        function renderRegisteredEmployees() {
+  const employeeBody = document.getElementById('hrEmployees');
+  const searchInput = document.getElementById('employeeSearchInput');
+  const sortSelect = document.getElementById('employeeSortSelect');
+
+  if (!employeeBody) return;
+
+  const employees =
+    hrDashboardData && Array.isArray(hrDashboardData.employees)
+      ? hrDashboardData.employees.slice()
+      : [];
+
+  const query = searchInput
+    ? searchInput.value.trim().toLowerCase()
+    : '';
+
+  const sortMode = sortSelect
+    ? sortSelect.value
+    : 'nameAsc';
+
+  const filteredEmployees = employees.filter(function(employee) {
+    return [
+      employee.employeeId,
+      employee.name,
+      employee.email
+    ].some(function(value) {
+      return String(value || '').toLowerCase().includes(query);
+    });
+  });
+
+  filteredEmployees.sort(function(a, b) {
+    if (sortMode === 'activeFirst') {
+      const activeDifference =
+        Number(Boolean(b.active)) - Number(Boolean(a.active));
+
+      if (activeDifference !== 0) return activeDifference;
+
+      return String(a.name || '').localeCompare(
+        String(b.name || ''),
+        undefined,
+        { sensitivity: 'base' }
+      );
+    }
+
+    if (sortMode === 'idAsc' || sortMode === 'idDesc') {
+      const result = String(a.employeeId || '').localeCompare(
+        String(b.employeeId || ''),
+        undefined,
+        { numeric: true, sensitivity: 'base' }
+      );
+
+      return sortMode === 'idDesc' ? -result : result;
+    }
+
+    const result = String(a.name || '').localeCompare(
+      String(b.name || ''),
+      undefined,
+      { sensitivity: 'base' }
+    );
+
+    return sortMode === 'nameDesc' ? -result : result;
+  });
+
+  employeeBody.innerHTML = '';
+
+  if (filteredEmployees.length === 0) {
+    const row = document.createElement('tr');
+    const cell = document.createElement('td');
+
+    cell.colSpan = 4;
+    cell.textContent = query
+      ? 'No employees match your search.'
+      : 'No employees registered.';
+
+    row.appendChild(cell);
+    employeeBody.appendChild(row);
+    return;
+  }
+
+  filteredEmployees.forEach(function(employee) {
+    const row = document.createElement('tr');
+
+    row.className = 'employee-row';
+    row.tabIndex = 0;
+    row.setAttribute('role', 'button');
+    row.setAttribute(
+      'aria-label',
+      'View details for ' + (employee.name || employee.employeeId)
+    );
+    row.title = 'Click to view employee details';
+
+    row.addEventListener('click', function() {
+      openEmployeeDetails(employee.employeeId);
+    });
+
+    row.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openEmployeeDetails(employee.employeeId);
+      }
+    });
+
+    [
+      employee.employeeId,
+      employee.name,
+      employee.email,
+      employee.active ? 'Active' : 'Inactive'
+    ].forEach(function(value) {
+      const cell = document.createElement('td');
+      cell.textContent = value || '';
+      row.appendChild(cell);
+    });
+
+    employeeBody.appendChild(row);
+  });
+}
+
+function loadCompanyDocuments() {
+  const tbody = document.getElementById('companyDocumentRows');
+  const message = document.getElementById('companyDocumentsMessage');
+
+  tbody.innerHTML = '<tr><td colspan="7">Loading company documents...</td></tr>';
+  message.textContent = '';
+
+  google.script.run
+    .withSuccessHandler(function(documents) {
+      tbody.replaceChildren();
+
+      if (!Array.isArray(documents) || documents.length === 0) {
+        const row = tbody.insertRow();
+        const cell = row.insertCell();
+        cell.colSpan = 7;
+        cell.textContent = 'No company documents registered yet.';
+        return;
+      }
+
+      documents.forEach(function(doc) {
+        const row = tbody.insertRow();
+
+        [
+          doc.companyName,
+          doc.category,
+          doc.name,
+          doc.documentNumber || '—',
+          doc.expiryDate || '—',
+          doc.status
+        ].forEach(function(value) {
+          const cell = row.insertCell();
+          cell.textContent = value || '—';
+        });
+
+        const actions = row.insertCell();
+
+        const viewButton = document.createElement('button');
+        viewButton.type = 'button';
+        viewButton.textContent = 'View Document';
+        viewButton.addEventListener('click', function() {
+          openCompanyDocumentFile(doc.companyDocumentId, viewButton);
+        });
+        actions.appendChild(viewButton);
+
+        const renewButton = document.createElement('button');
+        renewButton.type = 'button';
+        renewButton.className = 'renew-document-button';
+        renewButton.style.marginLeft = '8px';
+        renewButton.textContent = 'Renew';
+        renewButton.addEventListener('click', function() {
+          openRenewalModal(
+            'company',
+            doc.companyDocumentId,
+            doc.name || doc.category || 'Company Document'
+          );
+        });
+        actions.appendChild(renewButton);
+      });
+    })
+    .withFailureHandler(function(error) {
+      tbody.innerHTML =
+        '<tr><td colspan="7">Unable to load company documents.</td></tr>';
+      message.textContent =
+        error && error.message
+          ? error.message
+          : 'Unable to load company documents.';
+    })
+    .getCompanyDocumentsData();
+}
+
+
+function submitCompanyDocumentUpload() {
+  const companySelect = document.getElementById('companyDocCompanyId');
+  const category = document.getElementById('companyDocCategory').value;
+  const name = document.getElementById('companyDocName').value.trim();
+  const number = document.getElementById('companyDocNumber').value.trim();
+  const issueDate = document.getElementById('companyDocIssueDate').value;
+  const expiryDate = document.getElementById('companyDocExpiryDate').value;
+  const fileInput = document.getElementById('companyDocFile');
+  const file = fileInput.files[0];
+  const message = document.getElementById('companyDocUploadMessage');
+  const button = document.querySelector(
+    '#hrPage-companyDocuments button[onclick="submitCompanyDocumentUpload()"]'
+  );
+
+  const companyId = companySelect ? companySelect.value : '';
+
+  if (
+    !category ||
+    !name ||
+    !file ||
+    (currentUser && currentUser.role === 'SUPER_ADMIN' && !companyId)
+  ) {
+    message.textContent =
+      'Select a company if required, a category, document name, and file.';
+    return;
+  }
+
+  const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+  const allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
+  const extension = file.name.split('.').pop().toLowerCase();
+
+  if (
+    !allowedTypes.includes(file.type) ||
+    !allowedExtensions.includes(extension)
+  ) {
+    message.textContent = 'Choose a valid PDF, JPG, or PNG file.';
+    return;
+  }
+
+  if (!file.size || file.size > 5 * 1024 * 1024) {
+    message.textContent = 'The file must be no more than 5 MB.';
+    return;
+  }
+
+  if (issueDate && expiryDate && expiryDate < issueDate) {
+    message.textContent = 'Expiry date cannot be earlier than issue date.';
+    return;
+  }
+
+  message.textContent = 'Uploading company document...';
+  button.disabled = true;
+
+  const reader = new FileReader();
+
+  reader.onload = function(event) {
+    const base64Data = event.target.result.split(',')[1];
+
+    google.script.run
+      .withSuccessHandler(function(result) {
+        button.disabled = false;
+        message.textContent =
+          result && result.message
+            ? result.message
+            : 'Company document uploaded successfully.';
+
+        document.getElementById('companyDocCategory').value = '';
+        document.getElementById('companyDocName').value = '';
+        document.getElementById('companyDocNumber').value = '';
+        document.getElementById('companyDocIssueDate').value = '';
+        document.getElementById('companyDocExpiryDate').value = '';
+        fileInput.value = '';
+
+        loadCompanyDocuments();
+      })
+      .withFailureHandler(function(error) {
+        button.disabled = false;
+        message.textContent =
+          error && error.message
+            ? error.message
+            : 'Unable to upload company document.';
+      })
+      .uploadCompanyDocument(
+        companyId,
+        category,
+        name,
+        number,
+        issueDate,
+        expiryDate,
+        file.name,
+        file.type,
+        base64Data
+      );
+  };
+
+  reader.onerror = function() {
+    button.disabled = false;
+    message.textContent = 'Unable to read the selected file.';
+  };
+
+  reader.readAsDataURL(file);
+}
+
+
+function openCompanyDocumentFile(companyDocumentId, button) {
+  const message = document.getElementById('companyDocumentsMessage');
+  button.disabled = true;
+  button.textContent = 'Loading...';
+  message.textContent = '';
+
+  google.script.run
+    .withSuccessHandler(function(fileData) {
+      button.disabled = false;
+      button.textContent = 'View Document';
+
+      try {
+        const binary = atob(fileData.base64Data);
+        const bytes = new Uint8Array(binary.length);
+
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+
+        const blob = new Blob([bytes], { type: fileData.mimeType });
+        const url = URL.createObjectURL(blob);
+        const opened = window.open(url, '_blank');
+
+        if (!opened) {
+          URL.revokeObjectURL(url);
+          message.textContent =
+            'Pop-up blocked. Allow pop-ups and try again.';
+          return;
+        }
+
+        setTimeout(function() {
+          URL.revokeObjectURL(url);
+        }, 60000);
+      } catch (error) {
+        message.textContent = 'Unable to open this document.';
+      }
+    })
+    .withFailureHandler(function(error) {
+      button.disabled = false;
+      button.textContent = 'View Document';
+      message.textContent =
+        error && error.message
+          ? error.message
+          : 'Unable to open this document.';
+    })
+    .getAuthorizedCompanyDocumentFile(companyDocumentId);
+}
+
+    function showHrPage(pageName, clickedButton) {
+      const pageTitles = {
+        overview: 'HR Dashboard',
+        employees: 'Employees',
+        familyMembers: 'Family Members',
+        employeeDocuments: 'Employee Documents',
+        familyDocuments: 'Family Documents',
+        companyDocuments: 'Company Documents',
+        expiryAlerts: 'Expiry Alerts',
+        management: 'Registration & Uploads',
+        userRoles: 'User Role Management',
+        employeeGroups: 'Employee Group Creation',
+
+};
+
+
+      document.getElementById('hrPageTitle').textContent =
+        pageTitles[pageName] || 'HR Dashboard';
+
+      const pages = document.querySelectorAll('#hrDashboard .hr-page');
+
+      pages.forEach(function(page) {
+        page.classList.remove('active');
+      });
+
+      const selectedPage = document.getElementById('hrPage-' + pageName);
+
+      if (selectedPage) {
+        selectedPage.classList.add('active');
+      }
+
+      const buttons = document.querySelectorAll(
+        '#hrDashboard .hr-nav-button'
+      );
+
+      buttons.forEach(function(button) {
+        button.classList.remove('active');
+      });
+
+      if (clickedButton) {
+        clickedButton.classList.add('active');
+      }
+      if (pageName === 'companyDocuments') {
+  loadCompanyDocuments();
+}
+if (pageName === 'employeeGroups') {
+  loadEmployeeGroupManagement();
+  loadEmployeesForGroupAssignment();
+}
+    }
+    function openHrPage(pageName) {
+  const navButtons = document.querySelectorAll(
+    '#hrDashboard .hr-nav-button'
+  );
+
+  let matchingButton = null;
+
+  navButtons.forEach(function(button) {
+    if (button.getAttribute('onclick').includes("'" + pageName + "'")) {
+      matchingButton = button;
+    }
+  });
+
+  showHrPage(pageName, matchingButton);
+}
+
+    function loadHrFamilyDocuments() {
+      const tbody = document.getElementById('hrFamilyDocuments');
+
+      tbody.innerHTML =
+        '<tr><td colspan="7">Loading family documents...</td></tr>';
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          tbody.innerHTML = '';
+
+          const documents =
+            result && result.documents ? result.documents : [];
+
+          if (documents.length === 0) {
+            tbody.innerHTML =
+              '<tr><td colspan="7">No family documents found.</td></tr>';
+            return;
+          }
+
+          documents.forEach(function(doc) {
+            const row = document.createElement('tr');
+
+            [
+              doc.employeeName,
+              doc.familyMemberName,
+              doc.relationship,
+              doc.documentType + ' — ' + doc.documentName,
+              doc.expiryDate || '—',
+              doc.status
+            ].forEach(function(value) {
+              const cell = document.createElement('td');
+              cell.textContent = value || '—';
+              row.appendChild(cell);
+            });
+
+            const actionCell = document.createElement('td');
+            const viewButton = document.createElement('button');
+
+            viewButton.type = 'button';
+            viewButton.textContent = 'View Document';
+            viewButton.addEventListener('click', function() {
+              viewFamilyDocument(doc.familyDocumentId);
+            });
+
+            actionCell.appendChild(viewButton);
+            // Add an expiry warning and renewal button.
+const expiryStatus = getExpiryStatus(doc.expiryDate);
+
+if (
+  expiryStatus === 'Expired' ||
+  expiryStatus === 'Expiring soon'
+) {
+  const renewalAlert = document.createElement('button');
+
+  renewalAlert.type = 'button';
+  renewalAlert.className = 'renew-document-button';
+
+  renewalAlert.textContent =
+    expiryStatus === 'Expired'
+      ? '⚠ Expired — Renew'
+      : '⚠ Expiring soon — Renew';
+
+  renewalAlert.addEventListener('click', function() {
+    openRenewalModal(
+      'family',
+      doc.familyDocumentId,
+      doc.documentName || doc.documentType || 'Family Document'
+    );
+  });
+
+  actionCell.appendChild(renewalAlert);
+}
+            row.appendChild(actionCell);
+            tbody.appendChild(row);
+          });
+        })
+        .withFailureHandler(function(error) {
+          tbody.innerHTML =
+            '<tr><td colspan="7">Unable to load family documents.</td></tr>';
+
+          const message = document.getElementById('hrMessage');
+
+          if (message) {
+            message.textContent =
+              error && error.message
+                ? error.message
+                : 'Unable to load family documents.';
+          }
+        })
+        .getHrFamilyDocumentData();
+    }
+
+    function viewFamilyDocument(familyDocumentId) {
+      const message = document.getElementById('hrMessage');
+
+      if (message) {
+        message.textContent = 'Opening family document...';
+      }
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          try {
+            const byteCharacters = atob(result.base64Data);
+            const byteNumbers = new Array(byteCharacters.length);
+
+            for (let i = 0; i < byteCharacters.length; i++) {
+              byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], {
+              type: result.mimeType
+            });
+
+            const fileUrl = URL.createObjectURL(blob);
+            const opened = window.open(fileUrl, '_blank');
+
+            if (!opened) {
+              URL.revokeObjectURL(fileUrl);
+              if (message) {
+                message.textContent =
+                  'Your browser blocked the document window. Allow pop-ups and try again.';
+              }
+              return;
+            }
+
+            if (message) {
+              message.textContent = 'Family document opened.';
+            }
+          } catch (error) {
+            if (message) {
+              message.textContent = 'Unable to open the family document.';
+            }
+          }
+        })
+        .withFailureHandler(function(error) {
+          if (message) {
+            message.textContent =
+              error && error.message
+                ? error.message
+                : 'Unable to open the family document.';
+          }
+        })
+        .getAuthorizedFamilyDocumentFile(familyDocumentId);
+    }
+
+    // Register an employee.
+            function loadActiveCompaniesForSuperAdmin() {
+      const employeeSelect = document.getElementById('newEmployeeCompanyId');
+      const hrSelect = document.getElementById('companyHrCompanyId');
+      const message = document.getElementById('companyHrMessage');
+      const companyDocSelect = document.getElementById('companyDocCompanyId');
+
+      google.script.run
+        .withSuccessHandler(function(companies) {
+          const lists = [
+  employeeSelect,
+  hrSelect,
+  companyDocSelect
+].filter(Boolean);
+          lists.forEach(function(select) {
+            select.innerHTML = '<option value="">Select a company</option>';
+            (companies || []).forEach(function(company) {
+              const option = document.createElement('option');
+              option.value = company.companyId;
+              option.textContent = company.companyName + ' (' + company.companyId + ')';
+              select.appendChild(option);
+            });
+          });
+          if (message) message.textContent = '';
+        })
+        .withFailureHandler(function(error) {
+          if (message) message.textContent = error && error.message ? error.message : 'Unable to load companies.';
+        })
+        .getActiveCompaniesForAdmin();
+    }
+
+    function submitCompanyHrAssignment() {
+      if (!currentUser || currentUser.role !== 'SUPER_ADMIN') {
+        alert('Only the Super Admin can assign company HR access.');
+        return;
+      }
+      const emailInput = document.getElementById('companyHrEmail');
+      const companySelect = document.getElementById('companyHrCompanyId');
+      const message = document.getElementById('companyHrMessage');
+      const email = emailInput.value.trim().toLowerCase();
+      const companyId = companySelect.value;
+
+      if (!email || !companyId) {
+        message.textContent = 'Enter an HR email and select a company.';
+        return;
+      }
+      message.textContent = 'Assigning company HR access...';
+      google.script.run
+        .withSuccessHandler(function(result) {
+          message.textContent = result && result.message ? result.message : 'HR access assigned.';
+          emailInput.value = '';
+          companySelect.value = '';
+        })
+        .withFailureHandler(function(error) {
+          message.textContent = error && error.message ? error.message : 'Unable to assign HR access.';
+        })
+        .assignCompanyHrAccess(email, companyId);
+    }
+
+    // Register an employee. Super Admin selects the company; HR uses its assigned company.
+    function submitNewEmployee() {
+      const nameInput = document.getElementById('newEmployeeName');
+      const emailInput = document.getElementById('newEmployeeEmail');
+      const message = document.getElementById('addEmployeeMessage');
+      const companySelect = document.getElementById('newEmployeeCompanyId');
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim().toLowerCase();
+      const targetCompanyId = currentUser && currentUser.role === 'SUPER_ADMIN'
+        ? (companySelect ? companySelect.value : '')
+        : '';
+
+      if (!name || !email) {
+        message.textContent = 'Please enter the employee name and email.';
+        return;
+      }
+      if (currentUser && currentUser.role === 'SUPER_ADMIN' && !targetCompanyId) {
+        message.textContent = 'Please select a company for this employee.';
+        if (companySelect) companySelect.focus();
+        return;
+      }
+
+      message.textContent = 'Registering employee...';
+      google.script.run
+        .withSuccessHandler(function(employee) {
+          message.textContent = 'Employee registered successfully: ' + employee.employeeId;
+          nameInput.value = '';
+          emailInput.value = '';
+          if (companySelect && currentUser.role === 'SUPER_ADMIN') companySelect.value = '';
+          loadHrDashboard();
+        })
+        .withFailureHandler(function(error) {
+          message.textContent = error && error.message ? error.message : 'Unable to register employee.';
+        })
+        .addEmployee(name, email, targetCompanyId);
+    }
+
+
+function loadFamilyEmployees() {
+      const select = document.getElementById('familyEmployeeId');
+
+      google.script.run
+        .withSuccessHandler(function(data) {
+          select.innerHTML =
+            '<option value="">Select an employee</option>';
+
+          (data.employees || []).forEach(function(employee) {
+            if (employee.active) {
+              const option = document.createElement('option');
+              option.value = employee.employeeId;
+              option.textContent =
+                employee.name + ' (' + employee.employeeId + ')';
+              select.appendChild(option);
+            }
+          });
+        })
+        .withFailureHandler(function(error) {
+          document.getElementById('familyMemberMessage').textContent =
+            error && error.message
+              ? error.message
+              : 'Unable to load employees.';
+        })
+        .getHrDashboardData();
+    }
+
+    function loadFamilyDocumentMembers() {
+      const select = document.getElementById('familyDocumentMemberId');
+      const message =
+        document.getElementById('familyDocumentUploadMessage');
+
+      select.innerHTML =
+        '<option value="">Loading family members...</option>';
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          select.innerHTML =
+            '<option value="">Select a family member</option>';
+
+          const members =
+            result && result.members ? result.members : [];
+
+          members.forEach(function(member) {
+            const option = document.createElement('option');
+            option.value = member.familyMemberId;
+            option.textContent =
+              member.name + ' (' + member.relationship + ') — Employee: ' +
+              member.employeeName;
+            select.appendChild(option);
+          });
+
+          if (members.length === 0) {
+            select.innerHTML =
+              '<option value="">No active family members found</option>';
+          }
+        })
+        .withFailureHandler(function(error) {
+          select.innerHTML =
+            '<option value="">Unable to load family members</option>';
+
+          message.textContent =
+            error && error.message
+              ? error.message
+              : 'Unable to load family members.';
+        })
+        .getFamilyMembersForHr();
+    }
+
+    function submitFamilyMember() {
+      const employeeId =
+        document.getElementById('familyEmployeeId').value;
+
+      const name =
+        document.getElementById('familyMemberName').value.trim();
+
+      const relationship =
+        document.getElementById('familyRelationship').value;
+
+      const message =
+        document.getElementById('familyMemberMessage');
+
+      if (!employeeId || !name || !relationship) {
+        message.textContent =
+          'Please select an employee and enter the name and relationship.';
+        return;
+      }
+
+      message.textContent = 'Registering family member...';
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          message.textContent =
+            'Family member registered successfully: ' +
+            result.familyMemberId;
+
+          document.getElementById('familyMemberName').value = '';
+          document.getElementById('familyRelationship').value = '';
+
+          loadHrDashboard();
+        })
+        .withFailureHandler(function(error) {
+          message.textContent =
+            error && error.message
+              ? error.message
+              : 'Unable to register family member.';
+        })
+        .addFamilyMember(employeeId, name, relationship);
+    }
+
+    // Upload a document to the private Drive folder.
+    function submitDocumentUpload() {
+      const employeeId =
+        document.getElementById('uploadEmployeeId').value;
+
+      const documentType =
+        document.getElementById('uploadDocumentType').value.trim();
+
+      const issueDate =
+        document.getElementById('uploadIssueDate').value;
+
+      const expiryDate =
+        document.getElementById('uploadExpiryDate').value;
+
+      const fileInput =
+        document.getElementById('uploadDocumentFile');
+
+      const message =
+        document.getElementById('uploadMessage');
+
+      const button = document.querySelector(
+        '#hrDashboard button[onclick="submitDocumentUpload()"]'
+      );
+
+      const file = fileInput.files[0];
+
+      if (!employeeId || !documentType || !file) {
+        message.textContent =
+          'Please select an employee, enter a document type, and choose a file.';
+        return;
+      }
+
+      const allowedTypes = [
+        'application/pdf',
+        'image/jpeg',
+        'image/png'
+      ];
+
+      const extension = file.name.split('.').pop().toLowerCase();
+      const allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
+
+      if (
+        !allowedTypes.includes(file.type) ||
+        !allowedExtensions.includes(extension)
+      ) {
+        message.textContent =
+          'Please choose a valid PDF, JPG, or PNG file.';
+        return;
+      }
+
+      if (file.size === 0 || file.size > 5 * 1024 * 1024) {
+        message.textContent =
+          'The file must be larger than 0 bytes and no more than 5 MB.';
+        return;
+      }
+
+      if (expiryDate && issueDate && expiryDate < issueDate) {
+        message.textContent =
+          'Expiry date cannot be earlier than issue date.';
+        return;
+      }
+
+      message.textContent = 'Uploading document...';
+      button.disabled = true;
+
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        const base64Data = event.target.result.split(',')[1];
+
+        google.script.run
+          .withSuccessHandler(function(result) {
+            message.textContent =
+              result && result.message
+                ? result.message
+                : 'Document uploaded successfully.';
+
+            document.getElementById('uploadDocumentType').value = '';
+            document.getElementById('uploadIssueDate').value = '';
+            document.getElementById('uploadExpiryDate').value = '';
+            fileInput.value = '';
+
+            button.disabled = false;
+            loadHrDashboard();
+          })
+          .withFailureHandler(function(error) {
+            message.textContent =
+              error && error.message
+                ? error.message
+                : 'Upload failed. Please try again.';
+
+            button.disabled = false;
+          })
+          .uploadEmployeeDocument(
+            employeeId,
+            documentType,
+            issueDate,
+            expiryDate,
+            file.name,
+            file.type,
+            base64Data
+          );
+      };
+
+      reader.onerror = function() {
+        message.textContent = 'Unable to read the selected file.';
+        button.disabled = false;
+      };
+
+      reader.readAsDataURL(file);
+    }
+        function submitFamilyDocumentUpload() {
+      const familyMemberId =
+        document.getElementById('familyDocumentMemberId').value;
+
+      const documentType =
+        document.getElementById('familyDocumentType').value;
+
+      const documentNumber =
+        document.getElementById('familyDocumentNumber').value.trim();
+
+      const documentName =
+        document.getElementById('familyDocumentName').value.trim();
+
+      const issueDate =
+        document.getElementById('familyDocumentIssueDate').value;
+
+      const expiryDate =
+        document.getElementById('familyDocumentExpiryDate').value;
+
+      const fileInput =
+        document.getElementById('familyDocumentFile');
+
+      const message =
+        document.getElementById('familyDocumentUploadMessage');
+
+      const button = document.querySelector(
+        '#hrDashboard button[onclick="submitFamilyDocumentUpload()"]'
+      );
+
+      const file = fileInput.files[0];
+
+      if (!familyMemberId || !documentType || !documentName || !file) {
+        message.textContent =
+          'Please select a family member, document type, document name, and file.';
+        return;
+      }
+
+      const allowedTypes = [
+        'application/pdf',
+        'image/jpeg',
+        'image/png'
+      ];
+
+      const extension = file.name.split('.').pop().toLowerCase();
+      const allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
+
+      if (
+        !allowedTypes.includes(file.type) ||
+        !allowedExtensions.includes(extension)
+      ) {
+        message.textContent =
+          'Please choose a valid PDF, JPG, or PNG file.';
+        return;
+      }
+
+      if (file.size === 0 || file.size > 5 * 1024 * 1024) {
+        message.textContent =
+          'The file must be larger than 0 bytes and no more than 5 MB.';
+        return;
+      }
+
+      if (expiryDate && issueDate && expiryDate < issueDate) {
+        message.textContent =
+          'Expiry date cannot be earlier than issue date.';
+        return;
+      }
+
+      message.textContent = 'Uploading family document...';
+      button.disabled = true;
+
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        const base64Data = event.target.result.split(',')[1];
+
+        google.script.run
+          .withSuccessHandler(function(result) {
+            message.textContent =
+              result && result.message
+                ? result.message
+                : 'Family document uploaded successfully.';
+
+            document.getElementById('familyDocumentType').value = '';
+            document.getElementById('familyDocumentNumber').value = '';
+            document.getElementById('familyDocumentName').value = '';
+            document.getElementById('familyDocumentIssueDate').value = '';
+            document.getElementById('familyDocumentExpiryDate').value = '';
+            fileInput.value = '';
+
+            button.disabled = false;
+            loadHrDashboard();
+          })
+          .withFailureHandler(function(error) {
+            message.textContent =
+              error && error.message
+                ? error.message
+                : 'Family document upload failed. Please try again.';
+
+            button.disabled = false;
+          })
+          .uploadFamilyDocument(
+            familyMemberId,
+            documentType,
+            documentNumber,
+            issueDate,
+            expiryDate,
+            documentName + '.' + extension,
+            file.type,
+            base64Data
+          );
+      };
+
+      reader.onerror = function() {
+        message.textContent = 'Unable to read the selected file.';
+        button.disabled = false;
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    function loadFamilyMembers() {
+      const select = document.getElementById('familyDocumentMemberId');
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          select.innerHTML =
+            '<option value="">Select a family member</option>';
+
+          const members =
+            result && result.members ? result.members : [];
+
+          members.forEach(function(member) {
+            const option = document.createElement('option');
+            option.value = member.familyMemberId;
+            option.textContent =
+              member.name + ' (' + member.relationship + ')';
+            select.appendChild(option);
+          });
+        })
+        .withFailureHandler(function(error) {
+          select.innerHTML =
+            '<option value="">Unable to load family members</option>';
+
+          document.getElementById('familyDocumentUploadMessage').textContent =
+            error && error.message
+              ? error.message
+              : 'Unable to load family members.';
+        })
+        .getFamilyMembersForHr();
+    }
+
+    // This clears the portal UI only; it does not sign out of Google.
+function signOut() {
+  if (employeeSessionToken) {
+    const tokenToLogout = employeeSessionToken;
+    employeeSessionToken = null;
+    google.script.run.employeePasswordLogout(tokenToLogout);
+  }
+
+  currentUser = null;
+
+  document.getElementById('dashboard').classList.add('hidden');
+  document.getElementById('hrDashboard').classList.add('hidden');
+  document.getElementById('loginCard').classList.remove('hidden');
+
+  document.getElementById('message').textContent =
+    'You have signed out of the portal.';
+
+  document.getElementById('documentMessage').textContent = '';
+  document.getElementById('hrMessage').textContent = '';
+  document.getElementById('documents').innerHTML =
+    '<tr><td colspan="4">No documents loaded.</td></tr>';
+}
+        function openEmployeeDetails(employeeId) {
+  const data = hrDashboardData || {
+    employees: [],
+    documents: [],
+    familyMembers: [],
+    familyDocuments: []
+  };
+
+  const employee = data.employees.find(function(item) {
+    return String(item.employeeId) === String(employeeId);
+  });
+
+  if (!employee) {
+    alert('Employee details could not be found.');
+    return;
+  }
+
+  const documents = data.documents.filter(function(doc) {
+    return String(doc.employeeId) === String(employeeId);
+  });
+
+  const familyMembers = data.familyMembers.filter(function(member) {
+    return String(member.employeeId) === String(employeeId);
+  });
+
+  const familyDocuments = data.familyDocuments.filter(function(doc) {
+    return String(doc.employeeId) === String(employeeId);
+  });
+
+  function setDetail(id, value) {
+    const element = document.getElementById(id);
+    if (element) {
+      element.textContent = value || 'Not specified';
+    }
+  }
+
+  setDetail('employeeDetailsTitle', employee.name || 'Employee Details');
+  setDetail(
+    'employeeDetailsSubtitle',
+    'Employee ID: ' + (employee.employeeId || 'Not specified')
+  );
+
+  setDetail('detailEmployeeId', employee.employeeId);
+  setDetail('detailEmployeeName', employee.name);
+  setDetail('detailEmployeeEmail', employee.email);
+  setDetail(
+    'detailEmployeeStatus',
+    employee.active ? 'Active' : 'Inactive'
+  );
+
+  setDetail('detailDocumentCount', String(documents.length));
+  setDetail('detailFamilyCount', String(familyMembers.length));
+  setDetail('detailFamilyDocumentCount', String(familyDocuments.length));
+  setDetail('employeeDetailsMessage', '');
+
+  function populateTable(tbodyId, rows, emptyMessage, columnCount) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    if (rows.length === 0) {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+
+      td.colSpan = columnCount;
+      td.textContent = emptyMessage;
+
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+      return;
+    }
+
+    rows.forEach(function(values) {
+      const tr = document.createElement('tr');
+
+      values.forEach(function(value) {
+  const td = document.createElement('td');
+
+  if (value && typeof value === 'object' &&
+      value.actionType === 'renew') {
+    const status = getExpiryStatus(value.expiryDate);
+
+    if (status === 'Expired' || status === 'Expiring soon') {
+      const button = document.createElement('button');
+
+      button.type = 'button';
+      button.className = 'renew-document-button';
+      button.textContent = status === 'Expired'
+        ? '⚠ Expired — Renew'
+        : '⚠ Expiring soon — Renew';
+
+      button.addEventListener('click', function() {
+        openRenewalModal(
+          value.kind,
+          value.documentId,
+          value.name
+        );
+      });
+
+      td.appendChild(button);
+    } else {
+      td.textContent = '—';
+    }
+  } else {
+    td.textContent = value == null || value === ''
+      ? 'Not specified'
+      : String(value);
+  }
+
+  tr.appendChild(td);
+});
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  populateTable(
+    'detailEmployeeDocuments',
+   documents.map(function(doc) {
+  return [
+    doc.name || doc.type || 'Document',
+    doc.issueDate || 'Not specified',
+    doc.expiryDate || 'Not specified',
+    doc.status || getExpiryStatus(doc.expiryDate),
+    {
+      actionType: 'renew',
+      kind: 'employee',
+      documentId: doc.documentId,
+      name: doc.name || doc.type || 'Document',
+      expiryDate: doc.expiryDate
+    }
+  ];
+}),
+    'No employee documents found.',
+    5
+  );
+
+  populateTable(
+  'detailFamilyMembers',
+  familyMembers.map(function(member) {
+    return [
+      member.familyMemberId,
+      member.name,
+      member.relationship,
+      member.active ? 'Active' : 'Inactive'
+    ];
+  }),
+  'No family members registered.',
+  4
+);
+
+  populateTable(
+  'detailFamilyDocuments',
+  familyDocuments.map(function(doc) {
+  return [
+    doc.familyMemberName || 'Not specified',
+    doc.name || doc.type || 'Document',
+    doc.expiryDate || 'Not specified',
+    doc.status || getExpiryStatus(doc.expiryDate),
+    {
+      actionType: 'renew',
+      kind: 'family',
+      documentId: doc.familyDocumentId,
+      name: doc.name || doc.type || 'Family Document',
+      expiryDate: doc.expiryDate
+    }
+  ];
+}),
+  'No family documents found.',
+  5
+);
+
+    const modal = document.getElementById('employeeDetailsModal');
+
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+}
+
+function closeEmployeeDetails() {
+  const modal = document.getElementById('employeeDetailsModal');
+
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+}
+function openRenewalModal(kind, documentId, documentName) {
+  if (!currentUser) {
+    alert('Please sign in before renewing a document.');
+    return;
+  }
+
+  if (kind === 'family' && currentUser.role !== 'HR' && currentUser.role !== 'SUPER_ADMIN') {
+    alert('Only HR can renew family documents.');
+    return;
+  }
+
+  if (
+  kind !== 'employee' &&
+  kind !== 'family' &&
+  kind !== 'company'
+) {
+  alert('Invalid document type.');
+  return;
+}
+
+  const form = document.getElementById('renewalForm');
+  form.reset();
+
+  document.getElementById('renewalDocumentKind').value = kind;
+  document.getElementById('renewalDocumentId').value = documentId;
+  document.getElementById('renewalDocumentName').value =
+    documentName || 'Document';
+
+  document.getElementById('renewalTitle').textContent =
+  kind === 'family'
+    ? 'Renew Family Document'
+    : kind === 'company'
+      ? 'Renew Company Document'
+      : 'Renew Employee Document';
+  document.getElementById('renewalMessage').textContent = '';
+
+  const button = document.getElementById('renewalSubmitButton');
+  button.disabled = false;
+  button.textContent = 'Upload Renewal';
+
+  const modal = document.getElementById('renewalModal');
+  modal.classList.remove('hidden');
+  modal.setAttribute('aria-hidden', 'false');
+}
+function closeRenewalModal() {
+  const modal = document.getElementById('renewalModal');
+
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+}
+
+function submitDocumentRenewal(event) {
+  event.preventDefault();
+
+  const kind =
+    document.getElementById('renewalDocumentKind').value;
+  const documentId =
+    document.getElementById('renewalDocumentId').value;
+  const issueDate =
+    document.getElementById('renewalIssueDate').value;
+  const expiryDate =
+    document.getElementById('renewalExpiryDate').value;
+  const fileInput =
+    document.getElementById('renewalFile');
+  const file = fileInput.files[0];
+  const message =
+    document.getElementById('renewalMessage');
+  const button =
+    document.getElementById('renewalSubmitButton');
+
+  if (!documentId || !file || !expiryDate) {
+    message.textContent =
+      'Please select a replacement file and enter the new expiry date.';
+    return;
+  }
+
+  const allowedTypes = [
+    'application/pdf',
+    'image/jpeg',
+    'image/png'
+  ];
+
+  const extension = file.name.split('.').pop().toLowerCase();
+  const allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
+
+  if (
+    !allowedTypes.includes(file.type) ||
+    !allowedExtensions.includes(extension)
+  ) {
+    message.textContent = 'Choose a valid PDF, JPG, or PNG file.';
+    return;
+  }
+
+  if (file.size === 0 || file.size > 5 * 1024 * 1024) {
+    message.textContent =
+      'The file must be larger than 0 bytes and no more than 5 MB.';
+    return;
+  }
+
+  if (issueDate && expiryDate < issueDate) {
+    message.textContent =
+      'The new expiry date cannot be earlier than the issue date.';
+    return;
+  }
+
+  message.textContent = 'Uploading replacement document...';
+  button.disabled = true;
+  button.textContent = 'Uploading...';
+
+  const reader = new FileReader();
+
+  reader.onload = function(readerEvent) {
+    const base64Data = readerEvent.target.result.split(',')[1];
+
+    const onSuccess = function(result) {
+      button.disabled = false;
+      button.textContent = 'Upload Renewal';
+
+      closeRenewalModal();
+
+      const successMessage =
+        result && result.message
+          ? result.message
+          : 'Document renewed successfully.';
+
+      if (kind === 'company') {
+  loadCompanyDocuments();
+  document.getElementById('companyDocumentsMessage').textContent =
+    successMessage;
+} else if (
+  currentUser.role === 'HR' ||
+  currentUser.role === 'SUPER_ADMIN'
+) {
+  loadHrDashboard();
+  document.getElementById('hrMessage').textContent =
+    successMessage;
+} else {
+  loadDocuments();
+  document.getElementById('documentMessage').textContent =
+    successMessage;
+}
+};
+    const onFailure = function(error) {
+      button.disabled = false;
+      button.textContent = 'Upload Renewal';
+
+      message.textContent =
+        error && error.message
+          ? error.message
+          : 'The document could not be renewed.';
+    };
+
+    const runner = google.script.run
+      .withSuccessHandler(onSuccess)
+      .withFailureHandler(onFailure);
+
+    if (kind === 'employee') {
+      runner.renewEmployeeDocument(
+        documentId,
+        issueDate,
+        expiryDate,
+        file.name,
+        file.type,
+        base64Data
+      );
+    } else if (kind === 'family') {
+      runner.renewFamilyDocument(
+        documentId,
+        issueDate,
+        expiryDate,
+        file.name,
+        file.type,
+        base64Data
+      );
+    }
+    else if (kind === 'company') {
+  runner.renewCompanyDocument(
+    documentId,
+    issueDate,
+    expiryDate,
+    file.name,
+    file.type,
+    base64Data
+  );
+}
+     else {
+      button.disabled = false;
+      button.textContent = 'Upload Renewal';
+      message.textContent = 'Invalid document type.';
+    }
+  };
+
+  reader.onerror = function() {
+    button.disabled = false;
+    button.textContent = 'Upload Renewal';
+    message.textContent = 'Unable to read the selected file.';
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function loadExpirySettingsIntoPage() {
+  const message = document.getElementById('expirySettingsMessage');
+
+  if (message) message.textContent = 'Loading reminder settings...';
+
+  google.script.run
+    .withSuccessHandler(function(settings) {
+      document.getElementById('alertDay90').checked = !!settings.day90;
+      document.getElementById('alertDay60').checked = !!settings.day60;
+      document.getElementById('alertDay30').checked = !!settings.day30;
+      document.getElementById('alertDay15').checked = !!settings.day15;
+      document.getElementById('alertDay7').checked = !!settings.day7;
+      document.getElementById('alertDay0').checked = !!settings.day0;
+
+      if (message) message.textContent = 'Reminder settings loaded.';
+    })
+    .withFailureHandler(function(error) {
+      if (message) {
+        message.textContent = error && error.message
+          ? error.message
+          : 'Unable to load reminder settings.';
+      }
+    })
+    .getExpiryAlertSettings();
+}
+
+function saveExpirySettingsFromPage() {
+  const button = document.getElementById('saveExpirySettingsButton');
+  const message = document.getElementById('expirySettingsMessage');
+
+  const settings = {
+    day90: document.getElementById('alertDay90').checked,
+    day60: document.getElementById('alertDay60').checked,
+    day30: document.getElementById('alertDay30').checked,
+    day15: document.getElementById('alertDay15').checked,
+    day7: document.getElementById('alertDay7').checked,
+    day0: document.getElementById('alertDay0').checked
+  };
+
+  if (button) button.disabled = true;
+  if (message) message.textContent = 'Saving reminder settings...';
+
+  google.script.run
+    .withSuccessHandler(function(result) {
+      if (button) button.disabled = false;
+      if (message) {
+        message.textContent = result && result.message
+          ? result.message
+          : 'Reminder settings saved.';
+      }
+    })
+    .withFailureHandler(function(error) {
+      if (button) button.disabled = false;
+      if (message) {
+        message.textContent = error && error.message
+          ? error.message
+          : 'Unable to save reminder settings.';
+      }
+    })
+    .saveExpiryAlertSettings(settings);
+}
+
+function loadUserRoleManagement() {
+  const tbody = document.getElementById('userRoleManagementTable');
+  const message = document.getElementById('userRoleManagementMessage');
+
+  tbody.innerHTML =
+    '<tr><td colspan="5">Loading users...</td></tr>';
+
+  message.textContent = 'Loading user list...';
+
+  google.script.run
+    .withSuccessHandler(function(users) {
+      tbody.innerHTML = '';
+
+      if (!Array.isArray(users) || users.length === 0) {
+        tbody.innerHTML =
+          '<tr><td colspan="5">No users found.</td></tr>';
+
+        message.textContent = 'No user records found.';
+        return;
+      }
+      
+const selectedRole =
+  document.getElementById('userRoleFilter').value;
+
+const filteredUsers = users.filter(function(user) {
+  return selectedRole === 'ALL' || user.role === selectedRole;
+});
+
+if (filteredUsers.length === 0) {
+  tbody.innerHTML =
+    '<tr><td colspan="5">No users found for this role.</td></tr>';
+  message.textContent = 'No users found for the selected role.';
+  return;
+}
+
+
+      filteredUsers.forEach(function(user) {
+        const row = document.createElement('tr');
+
+        const values = [
+          user.role || '',
+          user.name || '',
+          user.email || '',
+          user.companyName || '',
+          user.active ? 'Active' : 'Inactive'
+        ];
+
+        values.forEach(function(value) {
+          const cell = document.createElement('td');
+          cell.textContent = value;
+          row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
+      });
+
+      message.textContent =
+        'Loaded ' + filteredUsers.length + ' user record(s).';
+    })
+    .withFailureHandler(function(error) {
+      tbody.innerHTML =
+        '<tr><td colspan="5">Unable to load users.</td></tr>';
+
+      message.textContent =
+        error && error.message
+          ? error.message
+          : 'An error occurred while loading users.';
+    })
+    .getUserRoleManagementData();
+}
+
+function loadEmployeeGroupManagement() {
+  const message = document.getElementById('employeeGroupsListMessage');
+  const companySelect = document.getElementById('employeeGroupCompany');
+  const table = document.getElementById('employeeGroupsTable');
+
+  message.textContent = 'Loading groups...';
+
+  google.script.run
+    .withSuccessHandler(function(data) {
+      companySelect.innerHTML = '';
+
+const groupSelect = document.getElementById('assignGroupSelect');
+const hrSelect = document.getElementById('assignGroupHrSelect');
+
+groupSelect.innerHTML = '';
+const groupPlaceholder = document.createElement('option');
+groupPlaceholder.value = '';
+groupPlaceholder.textContent = 'Select employee group';
+groupSelect.appendChild(groupPlaceholder);
+
+(data.groups || []).forEach(function(group) {
+  if (group.active) {
+    const option = document.createElement('option');
+    option.value = group.groupId;
+    option.textContent = group.groupName + ' — ' + group.companyName;
+    groupSelect.appendChild(option);
+  }
+});
+
+const employeeGroupSelect =
+  document.getElementById('assignEmployeeGroupSelect');
+
+if (employeeGroupSelect) {
+  employeeGroupSelect.innerHTML = '';
+
+  const employeeGroupPlaceholder = document.createElement('option');
+  employeeGroupPlaceholder.value = '';
+  employeeGroupPlaceholder.textContent = 'Select employee group';
+  employeeGroupSelect.appendChild(employeeGroupPlaceholder);
+
+  (data.groups || []).forEach(function(group) {
+    if (group.active) {
+      const option = document.createElement('option');
+      option.value = group.groupId;
+      option.textContent = group.groupName + ' — ' + group.companyName;
+      option.dataset.companyId = group.companyId;
+      employeeGroupSelect.appendChild(option);
+    }
+  });
+}
+
+
+hrSelect.innerHTML = '';
+const hrPlaceholder = document.createElement('option');
+hrPlaceholder.value = '';
+hrPlaceholder.textContent = 'Select HR user';
+hrSelect.appendChild(hrPlaceholder);
+
+(data.hrUsers || []).forEach(function(hr) {
+  const option = document.createElement('option');
+  option.value = hr.email;
+  option.textContent = hr.email + ' — ' + hr.companyName;
+  hrSelect.appendChild(option);
+});
+
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = 'Select company';
+      companySelect.appendChild(placeholder);
+
+      (data.companies || []).forEach(function(company) {
+        const option = document.createElement('option');
+        option.value = company.companyId;
+        option.textContent = company.companyName;
+        companySelect.appendChild(option);
+      });
+
+      table.innerHTML = '';
+
+      if (!data.groups || data.groups.length === 0) {
+        const row = table.insertRow();
+        const cell = row.insertCell();
+        cell.colSpan = 4;
+        cell.textContent = 'No employee groups created yet.';
+      } else {
+        data.groups.forEach(function(group) {
+          const row = table.insertRow();
+
+          row.insertCell().textContent = group.groupName;
+          row.insertCell().textContent = group.companyName;
+          row.insertCell().textContent = group.assignedHrEmail || 'Not assigned';
+          row.insertCell().textContent = group.active ? 'Active' : 'Inactive';
+        });
+      }
+
+      message.textContent = 'Groups loaded successfully.';
+    })
+    .withFailureHandler(function(error) {
+      message.textContent = 'Error: ' + error.message;
+    })
+    .getEmployeeGroupManagementData();
+}
+
+function submitEmployeeGroup() {
+  const nameInput = document.getElementById('employeeGroupName');
+  const companySelect = document.getElementById('employeeGroupCompany');
+  const message = document.getElementById('employeeGroupMessage');
+
+  const groupName = nameInput.value.trim();
+  const companyId = companySelect.value;
+
+  if (!groupName || !companyId) {
+    message.textContent = 'Please enter a group name and select a company.';
+    return;
+  }
+
+  message.textContent = 'Creating group...';
+
+  google.script.run
+    .withSuccessHandler(function(result) {
+      message.textContent = result.message || 'Group created successfully.';
+      nameInput.value = '';
+      loadEmployeeGroupManagement();
+    })
+    .withFailureHandler(function(error) {
+      message.textContent = 'Error: ' + error.message;
+    })
+    .createEmployeeGroup(groupName, companyId);
+}
+
+function submitHrGroupAssignment() {
+  const groupId = document.getElementById('assignGroupSelect').value;
+  const hrEmail = document.getElementById('assignGroupHrSelect').value;
+  const message = document.getElementById('assignHrGroupMessage');
+
+  if (!groupId || !hrEmail) {
+    message.textContent = 'Please select an employee group and an HR user.';
+    return;
+  }
+
+  message.textContent = 'Assigning HR...';
+
+  google.script.run
+    .withSuccessHandler(function(result) {
+      message.textContent =
+        result.message || 'HR assigned successfully.';
+      loadEmployeeGroupManagement();
+    })
+    .withFailureHandler(function(error) {
+      message.textContent = 'Error: ' + error.message;
+    })
+    .assignHrToEmployeeGroup(groupId, hrEmail);
+}
+
+function loadEmployeesForGroupAssignment() {
+  const groupSelect = document.getElementById('assignEmployeeGroupSelect');
+  const employeeSelect = document.getElementById('assignEmployeeSelect');
+  const message = document.getElementById('assignEmployeeGroupMessage');
+
+  message.textContent = 'Loading employees...';
+
+  google.script.run
+    .withSuccessHandler(function(employees) {
+      employeeSelect.innerHTML = '';
+
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = 'Select employee';
+      employeeSelect.appendChild(placeholder);
+
+      (employees || []).forEach(function(employee) {
+        const option = document.createElement('option');
+        option.value = employee.employeeId;
+        option.textContent = employee.name + ' (' + employee.employeeId + ')';
+        option.dataset.companyId = employee.companyId;
+        employeeSelect.appendChild(option);
+      });
+
+      message.textContent = employees.length
+        ? 'Active employees loaded. Select a group and employee.'
+        : 'No active employees found.';
+    })
+    .withFailureHandler(function(error) {
+      message.textContent = 'Error: ' + error.message;
+    })
+    .getEmployeesForGroupAssignment();
+}
+
+function filterEmployeesForSelectedGroup() {
+  const groupSelect = document.getElementById('assignEmployeeGroupSelect');
+  const employeeSelect = document.getElementById('assignEmployeeSelect');
+  const selectedGroup = document.getElementById('assignGroupSelect');
+
+  const groupId = groupSelect.value || selectedGroup.value;
+  const groupOption = Array.from(selectedGroup.options).find(function(option) {
+    return option.value === groupId;
+  });
+
+  const selectedCompanyId = groupOption
+    ? groupOption.dataset.companyId
+    : '';
+
+  Array.from(employeeSelect.options).forEach(function(option, index) {
+    if (index === 0) return;
+    option.hidden = !!selectedCompanyId &&
+      option.dataset.companyId !== selectedCompanyId;
+  });
+
+  employeeSelect.value = '';
+}
+
+function submitEmployeeGroupAssignment() {
+  const groupId =
+    document.getElementById('assignEmployeeGroupSelect').value;
+  const employeeId =
+    document.getElementById('assignEmployeeSelect').value;
+  const message =
+    document.getElementById('assignEmployeeGroupMessage');
+
+  if (!groupId || !employeeId) {
+    message.textContent = 'Please select an employee group and an employee.';
+    return;
+  }
+
+  message.textContent = 'Assigning employee...';
+
+  google.script.run
+    .withSuccessHandler(function(result) {
+      message.textContent =
+        (result && result.message) || 'Employee assigned successfully.';
+      loadEmployeeGroupManagement();
+      loadEmployeesForGroupAssignment();
+    })
+    .withFailureHandler(function(error) {
+      message.textContent = 'Error: ' + error.message;
+    })
+    .assignEmployeeToGroup(groupId, employeeId);
+}
+
+function loadRoleEditCompanies() {
+  const select = document.getElementById('roleEditCompany');
+  const group = document.getElementById('roleEditCompanyGroup');
+  if (!select || !group) return;
+
+  group.style.display =
+    document.getElementById('roleEditType').value === 'HR'
+      ? 'block' : 'none';
+
+  google.script.run
+    .withSuccessHandler(function(companies) {
+      select.replaceChildren(new Option('Select a company', ''));
+
+      (companies || []).forEach(function(company) {
+        select.add(new Option(
+          company.companyName,
+          company.companyId
+        ));
+      });
+    })
+    .withFailureHandler(function(error) {
+      document.getElementById('roleEditMessage').textContent =
+        error.message || 'Unable to load companies.';
+    })
+    .getActiveCompaniesForAdmin();
+}
+
+function saveRoleFromPage() {
+  const email = document.getElementById('roleEditEmail').value.trim();
+  const role = document.getElementById('roleEditType').value;
+  const companyId = document.getElementById('roleEditCompany').value;
+  const message = document.getElementById('roleEditMessage');
+
+  if (!email) {
+    message.textContent = 'Enter the user email.';
+    return;
+  }
+
+  if (role === 'HR' && !companyId) {
+    message.textContent = 'Select a company for the HR account.';
+    return;
+  }
+
+  message.textContent = 'Saving role...';
+
+  google.script.run
+    .withSuccessHandler(function(result) {
+      message.textContent =
+        result.message || 'Role saved successfully.';
+      google.script.run
+  .withSuccessHandler(function() {})
+  .getUserRoleManagementData();
+    })
+    .withFailureHandler(function(error) {
+      message.textContent =
+        error.message || 'Unable to save the role.';
+    })
+    .saveUserRoleManagementRole(email, role, companyId);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const roleSelect = document.getElementById('roleEditType');
+  if (roleSelect) {
+    roleSelect.addEventListener('change', loadRoleEditCompanies);
+    loadRoleEditCompanies();
+  }
+});
+
+  </script>
+</body>
